@@ -1,0 +1,11 @@
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.csproj.CoreCompileInputs.cache
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.AssemblyInfoInputs.cache
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.AssemblyInfo.cs
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\hostpolicy.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\hostfxr.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.exe
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.deps.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.runtimeconfig.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.runtimeconfig.dev.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.csprojAssemblyReference.cache

@@ -1,0 +1,11 @@
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.csproj.CoreCompileInputs.cache
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.AssemblyInfoInputs.cache
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.AssemblyInfo.cs
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\hostpolicy.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\hostfxr.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.exe
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.deps.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.runtimeconfig.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.runtimeconfig.dev.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.csprojAssemblyReference.cache

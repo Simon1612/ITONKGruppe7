@@ -1,0 +1,11 @@
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\obj\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.csproj.CoreCompileInputs.cache
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\obj\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.AssemblyInfoInputs.cache
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\obj\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.AssemblyInfo.cs
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\bin\Debug\netcoreapp2.0\win7-x64\hostpolicy.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\bin\Debug\netcoreapp2.0\win7-x64\hostfxr.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\bin\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.exe
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\bin\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.deps.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\bin\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.runtimeconfig.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\bin\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.runtimeconfig.dev.json
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\bin\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TobinTaxControl\TobinTaxControlAPI\obj\Debug\netcoreapp2.0\win7-x64\TobinTaxControlAPI.csprojAssemblyReference.cache
