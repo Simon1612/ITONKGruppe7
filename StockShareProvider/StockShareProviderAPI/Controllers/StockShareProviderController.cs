@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace StockShareProviderAPI.Controllers
 {
@@ -10,20 +11,32 @@ namespace StockShareProviderAPI.Controllers
     public class StockShareProviderController : Controller
     {
         [HttpPut("{stockId}")]
-        public void MarkSharesForSale(string stockId, [FromBody] Guid userId, [FromBody] int sharesAmount)
+        public List<AvailableSharesDataModel> MarkSharesForSale(string stockId, [FromBody] Guid userId, [FromBody] int sharesAmount)
         {
             //Validate ownership of stock with stockId
             //Validate stockId has sharesAmount of shares available for sale.
             //Make stock with stockId put sharesAmount of shares for sale.
+            
+            using (AvailableSharesContext context = new AvailableSharesContext(options))
+            {
+                //Return list of shares for sale, for stock with stockId
+                return new List<AvailableSharesDataModel>();
+            }
             //return response
         }
 
         [HttpGet("{stockId}")]
-        public string GetSharesForSale(string stockId)
+        public List<AvailableSharesDataModel> GetSharesForSale(string stockId)
         {
-            //Return list of shares for sale, for stock with stockId
-            return "stuff";
+            using (AvailableSharesContext context = new AvailableSharesContext(options)) {
+                //Return list of shares for sale, for stock with stockId
+                return new List<AvailableSharesDataModel>();
+            }
         }
+
+        public DbContextOptions<AvailableSharesContext> options = new DbContextOptionsBuilder<AvailableSharesContext>()
+                .UseInMemoryDatabase(databaseName: "AvailableSharesDb")
+                .Options;
 
         /*
         // PUT api/values/5

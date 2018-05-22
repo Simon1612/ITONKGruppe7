@@ -16,15 +16,12 @@ namespace TradeBrokerAPI.Controllers
         [HttpPost]
         public void InitiateTrade(string stockId, int sharesAmount, [FromBody]string requester)
         {
-
             //Modtag request fra StockShareRequester -> InitiateTrade kaldes fra StockShareRequesteren
             //Request AvailableShares for stockName fra StockShareProvider
             //If(requestedShares <= AvaiableShares) notify ShareOwnerControl
             //Modtag svar fra ShareOwnerControl
             //If(trade == succesful)
-            var options = new DbContextOptionsBuilder<TradeLogContext>()
-                .UseInMemoryDatabase(databaseName: "TradeLogDb")
-                .Options;
+
             using (TradeLogContext context = new TradeLogContext(options))
             {
                 context.Add(new TradeDataModel { StockId = stockId, SharesAmount = sharesAmount, StockRequester = new Guid(requester), StockProvider = new Guid()});
@@ -45,5 +42,9 @@ namespace TradeBrokerAPI.Controllers
                 return model;
             }
         }
+
+        public DbContextOptions<TradeLogContext> options = new DbContextOptionsBuilder<TradeLogContext>()
+                .UseInMemoryDatabase(databaseName: "TradeLogDb")
+                .Options;
     }
 }
