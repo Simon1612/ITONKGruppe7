@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace PaymentControlAPI.Controllers
 {
@@ -13,20 +11,33 @@ namespace PaymentControlAPI.Controllers
         [HttpGet("{paymentId}")]
         public string GetPaymentInfo(Guid paymentId)
         {
-            return "value";
+            using (PaymentContext context = new PaymentContext(options))
+            {
+                return "value";
+            }
         }
 
         // POST api/values
         [HttpPost]
         public void CreatePaymentInfo([FromBody]string value)
         {
-            //Think about this one
+            using (PaymentContext context = new PaymentContext(options))
+            {
+            }
+                //Think about this one
         }
 
         [HttpPut]
         public void UpdatePaymentInfo([FromBody]string value)
         {
+            using (PaymentContext context = new PaymentContext(options))
+            {
+            }
             //Think about this one
         }
+
+        public DbContextOptions<PaymentContext> options = new DbContextOptionsBuilder<PaymentContext>()
+            .UseInMemoryDatabase(databaseName: "PaymentDb")
+            .Options;
     }
 }
