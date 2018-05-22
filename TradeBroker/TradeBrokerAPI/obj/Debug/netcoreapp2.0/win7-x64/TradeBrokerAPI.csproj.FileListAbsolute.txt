@@ -9,3 +9,17 @@ D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.runtimeconfig.dev.json
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.dll
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.csprojAssemblyReference.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\hostpolicy.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\hostfxr.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.exe
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.deps.json
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.runtimeconfig.json
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.runtimeconfig.dev.json
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.pdb
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.csprojAssemblyReference.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.csproj.CoreCompileInputs.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.AssemblyInfoInputs.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.AssemblyInfo.cs
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.pdb
