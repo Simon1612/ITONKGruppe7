@@ -9,3 +9,6 @@ D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\PaymentControl\PaymentControlAPI\bin\
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\PaymentControl\PaymentControlAPI\bin\Debug\netcoreapp2.0\win7-x64\PaymentControlAPI.runtimeconfig.dev.json
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\PaymentControl\PaymentControlAPI\bin\Debug\netcoreapp2.0\win7-x64\PaymentControlAPI.dll
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\PaymentControl\PaymentControlAPI\obj\Debug\netcoreapp2.0\win7-x64\PaymentControlAPI.csprojAssemblyReference.cache
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\PaymentControl\PaymentControlAPI\bin\Debug\netcoreapp2.0\win7-x64\PaymentControlAPI.pdb
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\PaymentControl\PaymentControlAPI\obj\Debug\netcoreapp2.0\win7-x64\PaymentControlAPI.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\PaymentControl\PaymentControlAPI\obj\Debug\netcoreapp2.0\win7-x64\PaymentControlAPI.pdb
