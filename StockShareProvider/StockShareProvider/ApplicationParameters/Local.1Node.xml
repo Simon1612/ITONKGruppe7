@@ -2,7 +2,5 @@
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/StockShareProvider" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <Parameter Name="StockShareProviderAPI_InstanceCount" Value="1" />
-    <Parameter Name="Web1_InstanceCount" Value="1" />
-    <Parameter Name="StockShareProviderService_InstanceCount" Value="1" />
   </Parameters>
 </Application>

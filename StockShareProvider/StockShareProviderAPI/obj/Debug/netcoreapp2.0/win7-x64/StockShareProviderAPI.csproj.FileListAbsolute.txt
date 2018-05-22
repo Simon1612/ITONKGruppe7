@@ -9,3 +9,16 @@ D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\StockShareProvider\StockShareProvider
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.runtimeconfig.dev.json
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.dll
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.csprojAssemblyReference.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\hostpolicy.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\hostfxr.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.exe
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.deps.json
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.runtimeconfig.json
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.runtimeconfig.dev.json
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\bin\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.pdb
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.csproj.CoreCompileInputs.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.AssemblyInfoInputs.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.AssemblyInfo.cs
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.dll
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.pdb

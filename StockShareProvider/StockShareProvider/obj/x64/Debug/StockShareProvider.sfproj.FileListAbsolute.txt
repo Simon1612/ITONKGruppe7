@@ -1,1 +1,2 @@
 D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\StockShareProvider\StockShareProvider\obj\x64\Debug\StockShareProvider.sfproj.CoreCompileInputs.cache
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProvider\obj\x64\Debug\StockShareProvider.sfproj.CoreCompileInputs.cache
