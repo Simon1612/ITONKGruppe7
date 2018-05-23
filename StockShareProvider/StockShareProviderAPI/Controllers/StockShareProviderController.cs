@@ -34,7 +34,7 @@ namespace StockShareProviderAPI.Controllers
             }
         }
 
-        [HttpPut("DescreaseSharesAmountForSale/{stockId}")]
+        [HttpPut("DecreaseSharesAmountForSale/{stockId}")]
         public void DecreaseSharesAmountForSale(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
