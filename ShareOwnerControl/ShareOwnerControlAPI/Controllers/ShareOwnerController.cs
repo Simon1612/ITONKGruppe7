@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,7 +8,7 @@ namespace ShareOwnerControlAPI.Controllers
     public class ShareOwnerController : Controller
     {
         // GET api/values/5
-        [HttpGet("{stockId}")]
+        [HttpGet("GetStockInfo/{stockId}")]
         public string GetStockInfo(string stockId)
         {
             using (ShareOwnerContext context = new ShareOwnerContext(options))
@@ -20,8 +17,8 @@ namespace ShareOwnerControlAPI.Controllers
             }
         }
 
-        [HttpGet("{stockId}")]
-        public string VerifyShareOwnership(string stockId, [FromBody]Guid userId, [FromBody]int sharesAmount)
+        [HttpGet("VerifyShareOwnership/{stockId}")]
+        public string VerifyShareOwnership(string stockId, [FromBody]Guid userId, int sharesAmount)
         {
             using (ShareOwnerContext context = new ShareOwnerContext(options))
             {
@@ -30,8 +27,8 @@ namespace ShareOwnerControlAPI.Controllers
         }
 
         // PUT api/values/5
-        [HttpPut("{stockId}")]
-        public void UpdateShareOwnership(string stockId, [FromBody]Guid requester, [FromBody]Guid provider, [FromBody]int sharesAmount)
+        [HttpPut("UpdateShareOwnership/{stockId}")]
+        public void UpdateShareOwnership(string stockId, [FromBody]Guid requester, Guid provider, int sharesAmount)
         {
             //Check if requester have relation to stock. If yes´, update amount with old + new. If no, create new relation.
             //Subtract sharesAmount from providers relation to stock. If 0, delete relation.
@@ -40,8 +37,8 @@ namespace ShareOwnerControlAPI.Controllers
             }
         }
 
-        [HttpPost]
-        public void CreateShareOwnership(string stockId, [FromBody]Guid userId, [FromBody]int sharesAmount)
+        [HttpPost("CreateShareOwnership/{stockId}{sharesAmount}")]
+        public void CreateShareOwnership(string stockId, [FromBody]Guid userId, int sharesAmount)
         {
             //Create new user if not present 
             //Create new stock if not present

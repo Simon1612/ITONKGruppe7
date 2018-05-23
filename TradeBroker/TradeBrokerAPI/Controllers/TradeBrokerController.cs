@@ -1,10 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +7,7 @@ namespace TradeBrokerAPI.Controllers
     [Route("api/[controller]")]
     public class TradeBrokerController : Controller
     {
-        [HttpPost]
+        [HttpPost("InitiateTrade/{stockId}{sharesAmount}")]
         public void InitiateTrade(string stockId, int sharesAmount, [FromBody]string requester)
         {
             //Modtag request fra StockShareRequester -> InitiateTrade kaldes fra StockShareRequesteren
@@ -29,7 +23,7 @@ namespace TradeBrokerAPI.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpGet("GetTradeData/{tradeDataId}")]
         public TradeDataModel GetTradeData(int tradeDataId)
         {
             var options = new DbContextOptionsBuilder<TradeLogContext>()

@@ -5,6 +5,7 @@ using System.Linq;
 
 namespace StockShareProviderAPI.Controllers
 {
+    [Route("api/[controller]")]
     public class StockShareProviderController : Controller
     {
         [HttpPost("CreateAvailableShares/{stockId}")]

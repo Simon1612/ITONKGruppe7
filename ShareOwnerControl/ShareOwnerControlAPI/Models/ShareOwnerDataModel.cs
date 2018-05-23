@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
-namespace ShareOwnerControlAPI
+namespace ShareOwnerControlAPI.Models
 {
     public class ShareOwnerDataModel
     {
@@ -11,6 +9,7 @@ namespace ShareOwnerControlAPI
         {
         }
 
+        [Key]
         public int Id { get; set; }
         public string StockId { get; set; }
         public int SharesAmount { get; set; }

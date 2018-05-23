@@ -8,8 +8,8 @@ namespace PaymentControlAPI.Controllers
     public class PaymentController : Controller
     {
         // GET api/values/5
-        [HttpGet("{paymentId}")]
-        public string GetPaymentInfo(Guid paymentId)
+        [HttpGet("GetPaymentInfo/{paymentId}")]
+        public string GetPaymentInfo([FromBody]Guid paymentId)
         {
             using (PaymentContext context = new PaymentContext(options))
             {
@@ -18,8 +18,8 @@ namespace PaymentControlAPI.Controllers
         }
 
         // POST api/values
-        [HttpPost]
-        public void CreatePaymentInfo([FromBody]string value)
+        [HttpPost("CreatePaymentInfo/{value]")]
+        public void CreatePaymentInfo(string value)
         {
             using (PaymentContext context = new PaymentContext(options))
             {
@@ -27,8 +27,8 @@ namespace PaymentControlAPI.Controllers
                 //Think about this one
         }
 
-        [HttpPut]
-        public void UpdatePaymentInfo([FromBody]string value)
+        [HttpPut("UpdatePaymentInfo/{value}")]
+        public void UpdatePaymentInfo(string value)
         {
             using (PaymentContext context = new PaymentContext(options))
             {
