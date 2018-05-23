@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0/win7-x64",
-    "signature": "30a52fe05bfd6a618c00cc6b719d7a33eb1ed798"
+    "signature": "cc4f29079fc5cd05706856237fa63205d07db0d0"
   },
   "compilationOptions": {
     "defines": [
@@ -29,8 +29,11 @@
           "Microsoft.ServiceFabric.AspNetCore.Kestrel": "3.1.274",
           "Microsoft.ServiceFabric.Data": "3.1.274",
           "Microsoft.ServiceFabric.Services": "3.1.274",
+          "Serilog": "2.7.1",
+          "Serilog.Sinks.File": "4.0.0",
           "Swashbuckle.AspNetCore.Swagger": "2.4.0",
-          "Swashbuckle.AspNetCore.SwaggerGen": "2.4.0"
+          "Swashbuckle.AspNetCore.SwaggerGen": "2.4.0",
+          "Swashbuckle.AspNetCore.SwaggerUI": "2.4.0"
         },
         "compile": {
           "TobinTaxControlAPI.dll": {}
@@ -2266,6 +2269,30 @@
       },
       "runtime.win7-x64.runtime.native.System.IO.Compression/4.3.0": {},
       "runtime.win7.System.Private.Uri/4.3.0": {},
+      "Serilog/2.7.1": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.0",
+          "System.Collections.NonGeneric": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.dll": {}
+        }
+      },
+      "Serilog.Sinks.File/4.0.0": {
+        "dependencies": {
+          "Serilog": "2.7.1",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Text.Encoding.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Timer": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard1.3/Serilog.Sinks.File.dll": {}
+        }
+      },
       "SQLitePCLRaw.bundle_green/1.1.7": {
         "dependencies": {
           "SQLitePCLRaw.core": "1.1.7",
@@ -2350,6 +2377,18 @@
         },
         "compile": {
           "lib/netstandard1.6/Swashbuckle.AspNetCore.SwaggerGen.dll": {}
+        }
+      },
+      "Swashbuckle.AspNetCore.SwaggerUI/2.4.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Routing": "2.0.3",
+          "Microsoft.AspNetCore.StaticFiles": "2.0.3",
+          "Microsoft.Extensions.FileProviders.Embedded": "2.0.1",
+          "NETStandard.Library": "2.0.0",
+          "Newtonsoft.Json": "10.0.1"
+        },
+        "compile": {
+          "lib/netstandard1.6/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
         }
       },
       "System.AppContext/4.3.0": {
@@ -3322,8 +3361,11 @@
           "Microsoft.ServiceFabric.AspNetCore.Kestrel": "3.1.274",
           "Microsoft.ServiceFabric.Data": "3.1.274",
           "Microsoft.ServiceFabric.Services": "3.1.274",
+          "Serilog": "2.7.1",
+          "Serilog.Sinks.File": "4.0.0",
           "Swashbuckle.AspNetCore.Swagger": "2.4.0",
-          "Swashbuckle.AspNetCore.SwaggerGen": "2.4.0"
+          "Swashbuckle.AspNetCore.SwaggerGen": "2.4.0",
+          "Swashbuckle.AspNetCore.SwaggerUI": "2.4.0"
         },
         "runtime": {
           "TobinTaxControlAPI.dll": {}
@@ -5697,6 +5739,30 @@
       },
       "runtime.win7-x64.runtime.native.System.IO.Compression/4.3.0": {},
       "runtime.win7.System.Private.Uri/4.3.0": {},
+      "Serilog/2.7.1": {
+        "dependencies": {
+          "NETStandard.Library": "2.0.0",
+          "System.Collections.NonGeneric": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.dll": {}
+        }
+      },
+      "Serilog.Sinks.File/4.0.0": {
+        "dependencies": {
+          "Serilog": "2.7.1",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Text.Encoding.Extensions": "4.3.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Timer": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/Serilog.Sinks.File.dll": {}
+        }
+      },
       "SQLitePCLRaw.bundle_green/1.1.7": {
         "dependencies": {
           "SQLitePCLRaw.core": "1.1.7",
@@ -5785,6 +5851,18 @@
         },
         "runtime": {
           "lib/netstandard1.6/Swashbuckle.AspNetCore.SwaggerGen.dll": {}
+        }
+      },
+      "Swashbuckle.AspNetCore.SwaggerUI/2.4.0": {
+        "dependencies": {
+          "Microsoft.AspNetCore.Routing": "2.0.3",
+          "Microsoft.AspNetCore.StaticFiles": "2.0.3",
+          "Microsoft.Extensions.FileProviders.Embedded": "2.0.1",
+          "NETStandard.Library": "2.0.0",
+          "Newtonsoft.Json": "10.0.1"
+        },
+        "runtime": {
+          "lib/netstandard1.6/Swashbuckle.AspNetCore.SwaggerUI.dll": {}
         }
       },
       "System.AppContext/4.3.0": {
@@ -8388,6 +8466,20 @@
       "path": "runtime.win7.system.private.uri/4.3.0",
       "hashPath": "runtime.win7.system.private.uri.4.3.0.nupkg.sha512"
     },
+    "Serilog/2.7.1": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-5eS6AD4hesOYvlwYqjntLaOonDnEiY22QiMUKueJHPrm5vm1k4tzXgOgCb2mJoMnj6l5Wt6AXV5liXzXymvarg==",
+      "path": "serilog/2.7.1",
+      "hashPath": "serilog.2.7.1.nupkg.sha512"
+    },
+    "Serilog.Sinks.File/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vBj43RkAbeP1dzoPFR2+LfV5GevDRPDq6265JJBv223lMvT9rfdwe/S/I9ow7aZSLYKfw4qPDw6NW8YwjbDbvg==",
+      "path": "serilog.sinks.file/4.0.0",
+      "hashPath": "serilog.sinks.file.4.0.0.nupkg.sha512"
+    },
     "SQLitePCLRaw.bundle_green/1.1.7": {
       "type": "package",
       "serviceable": true,
@@ -8450,6 +8542,13 @@
       "sha512": "sha512-dDaKa1kLGjVNYHnTtv3BT+yg8fVHf3HRgpY4bjhRcjtJJtCHejPFWUF3DoIDB4c5mmlZoAvqn6iOtQW+Qj4wOg==",
       "path": "swashbuckle.aspnetcore.swaggergen/2.4.0",
       "hashPath": "swashbuckle.aspnetcore.swaggergen.2.4.0.nupkg.sha512"
+    },
+    "Swashbuckle.AspNetCore.SwaggerUI/2.4.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TwnD/Ibviaxvuemq1YssHruRuEQBoJFuWaONClth6ZSae9YcFyy00bWCjvXJvrlbmIDw3UKZwWQ5f+zGFIjaqw==",
+      "path": "swashbuckle.aspnetcore.swaggerui/2.4.0",
+      "hashPath": "swashbuckle.aspnetcore.swaggerui.2.4.0.nupkg.sha512"
     },
     "System.AppContext/4.3.0": {
       "type": "package",
