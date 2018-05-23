@@ -22,10 +22,6 @@ namespace StockShareProviderAPI.Controllers
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
             {
-                //var selectedStock = from x in context.AvailableSharesDataModel
-                                                      //   where x.StockId.Equals(stockId)
-                                                        // select x;
-
                 var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).Single();
 
                 if (selectedStock.StockOwner.Equals(userId))
@@ -60,10 +56,6 @@ namespace StockShareProviderAPI.Controllers
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
             {
-                //var selectedStock = from x in context.AvailableSharesDataModel
-                //                  where x.StockId.Equals(stockId)
-                //                select x;
-
                 AvailableSharesDataModel sharesForSale = new AvailableSharesDataModel();
                 var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).SingleOrDefault();
 
