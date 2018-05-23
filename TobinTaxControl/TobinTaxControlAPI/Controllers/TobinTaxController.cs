@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
 
 namespace TobinTaxControlAPI.Controllers
 {
@@ -11,11 +13,19 @@ namespace TobinTaxControlAPI.Controllers
     {
         // POST api/values
         [HttpPost]
-        public void PayTobinTax([FromBody]int transactionValue, Guid transactionId)
+        public void PayTobinTax(float transactionValue, [FromBody]int transactionId)
         {
-            var tobinTaxValue = transactionValue / 100;
+            float tobinTaxValue = transactionValue / 100;
 
-            //Log tobinTaxValue and transactionId in file.
+            if (!Directory.Exists("C:\\TSEIS\\"))
+            {
+                Directory.CreateDirectory("C:\\TSEIS\\");
+            }
+
+            using (var log = new LoggerConfiguration().WriteTo.File("C:\\TSEIS\\tobinTaxLog.txt").CreateLogger())
+            {
+                log.Information($"Transaction: {transactionId} has been taxed {tobinTaxValue.ToString()}(1%) of the total value.");
+            }
         }
     }
 }

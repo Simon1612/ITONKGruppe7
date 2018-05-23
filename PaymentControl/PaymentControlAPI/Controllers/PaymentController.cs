@@ -1,6 +1,8 @@
 ﻿using System;
+using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
 
 namespace PaymentControlAPI.Controllers
 {
@@ -9,23 +11,33 @@ namespace PaymentControlAPI.Controllers
     {
         // GET api/values/5
         [HttpGet("GetPaymentInfo/{paymentId}")]
-        public string GetPaymentInfo([FromBody]Guid paymentId)
         {
             using (PaymentContext context = new PaymentContext(options))
             {
-                return "value";
+                return context.Find<PaymentDataModel>(paymentId);
             }
         }
 
         // POST api/values
         [HttpPost("CreatePaymentInfo/{value]")]
-        public void CreatePaymentInfo(string value)
         {
             using (PaymentContext context = new PaymentContext(options))
             {
+                context.Add(new PaymentDataModel { PaymentType = paymentType, PaymentAmount = paymentAmount, CounterParty=counterParty });
+                context.SaveChanges();
             }
-                //Think about this one
+
+            if (!Directory.Exists("C:\\TSEIS\\"))
+            {
+                Directory.CreateDirectory("C:\\TSEIS\\");
+            }
+
+            using (var log = new LoggerConfiguration().WriteTo.File("C:\\TSEIS\\paymentLog.txt").CreateLogger())
+            {
+                log.Information($"{paymentType} of amount: {paymentAmount} has been send to {counterParty}");
+            }
         }
+
 
         [HttpPut("UpdatePaymentInfo/{value}")]
         public void UpdatePaymentInfo(string value)
