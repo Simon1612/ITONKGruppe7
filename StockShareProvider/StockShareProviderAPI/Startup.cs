@@ -37,14 +37,14 @@ namespace StockShareProviderAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseSwagger();
+            app.UseMvc();
 
+            app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "StockShareProvider API");
             });
 
-            app.UseMvc();
         }
     }
 }

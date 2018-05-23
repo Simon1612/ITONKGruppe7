@@ -22,3 +22,4 @@ C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\Stoc
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.AssemblyInfo.cs
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.dll
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.pdb
+C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\StockShareProvider\StockShareProviderAPI\obj\Debug\netcoreapp2.0\win7-x64\StockShareProviderAPI.csprojAssemblyReference.cache

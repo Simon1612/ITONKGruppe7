@@ -24,6 +24,7 @@
       "StockShareProviderAPI/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.All": "2.0.8",
+          "Microsoft.AspNetCore.StaticFiles": "2.0.3",
           "Microsoft.NETCore.App": "2.0.0",
           "Microsoft.ServiceFabric": "6.2.274",
           "Microsoft.ServiceFabric.AspNetCore.Kestrel": "3.1.274",
@@ -3330,6 +3331,7 @@
       "StockShareProviderAPI/1.0.0": {
         "dependencies": {
           "Microsoft.AspNetCore.All": "2.0.8",
+          "Microsoft.AspNetCore.StaticFiles": "2.0.3",
           "Microsoft.NETCore.App": "2.0.0",
           "Microsoft.ServiceFabric": "6.2.274",
           "Microsoft.ServiceFabric.AspNetCore.Kestrel": "3.1.274",

@@ -7,7 +7,7 @@ namespace StockShareProviderAPI.Controllers
 {
     public class StockShareProviderController : Controller
     {
-        [HttpPost("{stockId}")]
+        [HttpPost("CreateAvailableShares/{stockId}")]
         public void CreateAvailableShares(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
@@ -17,68 +17,67 @@ namespace StockShareProviderAPI.Controllers
             }
         }
 
-        [HttpPut("{stockId}")]
+        [HttpPut("IncreaseSharesAmountForSale/{stockId}")]
         public void IncreaseSharesAmountForSale(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
             {
-                var selectedStock = from x in context.AvailableSharesDataModel
-                                                         where x.StockId.Equals(stockId)
-                                                         select x;
+                //var selectedStock = from x in context.AvailableSharesDataModel
+                                                      //   where x.StockId.Equals(stockId)
+                                                        // select x;
 
-                AvailableSharesDataModel stock = selectedStock.SingleOrDefault();
+                var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).Single();
 
-                if (selectedStock.Select(x => x.StockOwner).Equals(userId))
+                if (selectedStock.StockOwner.Equals(userId))
                 {   
-                        stock.SharesAmount += sharesAmount;
+                        selectedStock.SharesAmount += sharesAmount;
                 }
-                context.Update(stock);
+                context.Update(selectedStock);
                 context.SaveChanges();
             }
         }
 
-        [HttpPut("{stockId}")]
+        [HttpPut("DescreaseSharesAmountForSale/{stockId}")]
         public void DecreaseSharesAmountForSale(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
             {
-                var selectedStock = from x in context.AvailableSharesDataModel
-                                    where x.StockId.Equals(stockId)
-                                    select x;
 
-                AvailableSharesDataModel stock = selectedStock.SingleOrDefault();
+                var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).Single();
 
-                if (selectedStock.Select(x => x.StockOwner).Equals(userId))
+                if (selectedStock.StockOwner.Equals(userId))
                 {
-                    stock.SharesAmount -= sharesAmount;
+                    selectedStock.SharesAmount -= sharesAmount;
+                    if(selectedStock.SharesAmount < 0) { return; }
                 }
-                context.Update(stock);
+                context.Update(selectedStock);
                 context.SaveChanges();
             }
         }
 
-        [HttpGet("{stockId}")]
+        [HttpGet("GetSharesForSale/{stockId}")]
         public AvailableSharesDataModel GetSharesForSale(string stockId)
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
             {
-                var selectedStock = from x in context.AvailableSharesDataModel
-                                    where x.StockId.Equals(stockId)
-                                    select x;
+                //var selectedStock = from x in context.AvailableSharesDataModel
+                //                  where x.StockId.Equals(stockId)
+                //                select x;
 
                 AvailableSharesDataModel sharesForSale = new AvailableSharesDataModel();
+                var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).SingleOrDefault();
 
-                if (selectedStock.Single() != null)
+                if (selectedStock != null)
                 {
-                    sharesForSale = selectedStock.Single();
+                    sharesForSale = selectedStock;
                 }
 
                 return sharesForSale; 
             }
         }
 
-        public DbContextOptions<AvailableSharesContext> options = new DbContextOptionsBuilder<AvailableSharesContext>()
-                .UseInMemoryDatabase(databaseName: "AvailableSharesDb")
-                .Options;
+        private DbContextOptions<AvailableSharesContext> options = new DbContextOptionsBuilder<AvailableSharesContext>()
+           .UseInMemoryDatabase(databaseName: "AvailableSharesDb")
+           .Options;
     }
 }

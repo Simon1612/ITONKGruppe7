@@ -19267,6 +19267,7 @@
   "projectFileDependencyGroups": {
     ".NETCoreApp,Version=v2.0": [
       "Microsoft.AspNetCore.All >= 2.0.8",
+      "Microsoft.AspNetCore.StaticFiles >= 2.0.3",
       "Microsoft.NETCore.App >= 2.0.0",
       "Microsoft.ServiceFabric >= 6.2.274",
       "Microsoft.ServiceFabric.AspNetCore.Kestrel >= 3.1.274",
@@ -19321,6 +19322,10 @@
           "Microsoft.AspNetCore.All": {
             "target": "Package",
             "version": "[2.0.8, )"
+          },
+          "Microsoft.AspNetCore.StaticFiles": {
+            "target": "Package",
+            "version": "[2.0.3, )"
           },
           "Microsoft.NETCore.App": {
             "target": "Package",
