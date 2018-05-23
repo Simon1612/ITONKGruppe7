@@ -19378,32 +19378,30 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Simon\\.nuget\\packages\\": {},
+    "C:\\Users\\Aleksander Konnerup\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\OneDrive\\6. Semester\\ITONK\\ITONKGruppe7\\PaymentControl\\PaymentControlAPI\\PaymentControlAPI.csproj",
+      "projectUniqueName": "C:\\Users\\Aleksander Konnerup\\Documents\\Au-Iha-6semester\\I6TONK\\ITONKGruppe7\\PaymentControl\\PaymentControlAPI\\PaymentControlAPI.csproj",
       "projectName": "PaymentControlAPI",
-      "projectPath": "D:\\OneDrive\\6. Semester\\ITONK\\ITONKGruppe7\\PaymentControl\\PaymentControlAPI\\PaymentControlAPI.csproj",
-      "packagesPath": "C:\\Users\\Simon\\.nuget\\packages\\",
-      "outputPath": "D:\\OneDrive\\6. Semester\\ITONK\\ITONKGruppe7\\PaymentControl\\PaymentControlAPI\\obj\\",
+      "projectPath": "C:\\Users\\Aleksander Konnerup\\Documents\\Au-Iha-6semester\\I6TONK\\ITONKGruppe7\\PaymentControl\\PaymentControlAPI\\PaymentControlAPI.csproj",
+      "packagesPath": "C:\\Users\\Aleksander Konnerup\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Aleksander Konnerup\\Documents\\Au-Iha-6semester\\I6TONK\\ITONKGruppe7\\PaymentControl\\PaymentControlAPI\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Simon\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\ServiceFabricSDK.config"
+        "C:\\Users\\Aleksander Konnerup\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp2.0"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\Microsoft SDKs\\Service Fabric\\packages": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

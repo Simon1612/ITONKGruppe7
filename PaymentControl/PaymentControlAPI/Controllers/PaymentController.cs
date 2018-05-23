@@ -2,6 +2,7 @@
 using System.IO;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using PaymentControlAPI;
 using Serilog;
 
 namespace PaymentControlAPI.Controllers
@@ -11,6 +12,7 @@ namespace PaymentControlAPI.Controllers
     {
         // GET api/values/5
         [HttpGet("GetPaymentInfo/{paymentId}")]
+        public PaymentDataModel GetPaymentInfo(int paymentId)
         {
             using (PaymentContext context = new PaymentContext(options))
             {
@@ -19,7 +21,8 @@ namespace PaymentControlAPI.Controllers
         }
 
         // POST api/values
-        [HttpPost("CreatePaymentInfo/{value]")]
+        [HttpPost("CreatePaymentInfo/paymentType}{paymentAmount}")]
+        public void CreatePaymentInfo(string paymentType, int paymentAmount, [FromBody]Guid counterParty)
         {
             using (PaymentContext context = new PaymentContext(options))
             {
@@ -37,7 +40,7 @@ namespace PaymentControlAPI.Controllers
                 log.Information($"{paymentType} of amount: {paymentAmount} has been send to {counterParty}");
             }
         }
-
+        
 
         [HttpPut("UpdatePaymentInfo/{value}")]
         public void UpdatePaymentInfo(string value)
