@@ -133,21 +133,21 @@ namespace TradeClient.ViewModels
             {
                 var newShare = new Share()
                 {
-                    StockId = dlg.StockIdTbx.Text,
+                    StockId = dlg.StockIdTbx.Text.ToUpper(),
                     Price = Convert.ToDecimal(dlg.PriceTbx.Text),
                     Amount = Convert.ToInt32(dlg.AmountTbx.Text)
                 };
 
-                var selectedUser = dlg.SelectUserCbx.SelectionBoxItem;
+                var selectedOwner = dlg.SelectUserCbx.SelectionBoxItem;
 
                 //If no owner selected
-                if (String.IsNullOrWhiteSpace(selectedUser.ToString()))
+                if (String.IsNullOrWhiteSpace(selectedOwner.ToString()))
                 {
                     //Create Share with no owner?
                 }
                 else
                 {
-                    var owner = selectedUser as User;
+                    var owner = selectedOwner as User;
                     //Create share with owner
                 }
             }
