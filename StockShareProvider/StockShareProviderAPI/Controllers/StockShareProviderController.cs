@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Collections.Generic;
 
 namespace StockShareProviderAPI.Controllers
 {
@@ -11,10 +12,13 @@ namespace StockShareProviderAPI.Controllers
         [HttpPost("CreateAvailableShares/{stockId}")]
         public void CreateAvailableShares(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
-            using (AvailableSharesContext context = new AvailableSharesContext(options))
+            if (stockId != null && userId != null)
             {
-                context.Add(new AvailableSharesDataModel { StockId = stockId, StockOwner = userId, SharesAmount = sharesAmount});
-                context.SaveChanges();
+                using (AvailableSharesContext context = new AvailableSharesContext(options))
+                {
+                    context.Add(new AvailableSharesDataModel { StockId = stockId, StockOwner = userId, SharesAmount = sharesAmount });
+                    context.SaveChanges();
+                }
             }
         }
 
@@ -26,8 +30,8 @@ namespace StockShareProviderAPI.Controllers
                 var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).Single();
 
                 if (selectedStock.StockOwner.Equals(userId))
-                {   
-                        selectedStock.SharesAmount += sharesAmount;
+                {
+                    selectedStock.SharesAmount += sharesAmount;
                 }
                 context.Update(selectedStock);
                 context.SaveChanges();
@@ -39,33 +43,40 @@ namespace StockShareProviderAPI.Controllers
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
             {
-
                 var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).Single();
 
                 if (selectedStock.StockOwner.Equals(userId))
                 {
                     selectedStock.SharesAmount -= sharesAmount;
-                    if(selectedStock.SharesAmount < 0) { return; }
+
+                    if (selectedStock.SharesAmount < 0)
+                        return;
+
+                    if (selectedStock.SharesAmount == 0)
+                        context.Remove(selectedStock);
+                    else
+                        context.Update(selectedStock);
                 }
-                context.Update(selectedStock);
+                
                 context.SaveChanges();
             }
         }
 
         [HttpGet("GetSharesForSale/{stockId}")]
-        public AvailableSharesDataModel GetSharesForSale(string stockId)
+        public List<AvailableSharesDataModel> GetSharesForSale(string stockId)
         {
             using (AvailableSharesContext context = new AvailableSharesContext(options))
             {
-                AvailableSharesDataModel sharesForSale = new AvailableSharesDataModel();
-                var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).SingleOrDefault();
+                return context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).ToList();
+            }
+        }
 
-                if (selectedStock != null)
-                {
-                    sharesForSale = selectedStock;
-                }
-
-                return sharesForSale; 
+        [HttpGet]
+        public List<AvailableSharesDataModel> GetAllSharesForSale()
+        {
+            using (AvailableSharesContext context = new AvailableSharesContext(options))
+            {
+                return context.AvailableSharesDataModel.ToList();
             }
         }
 

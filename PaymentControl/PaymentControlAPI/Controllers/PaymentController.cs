@@ -21,7 +21,7 @@ namespace PaymentControlAPI.Controllers
         }
 
         // POST api/values
-        [HttpPost("CreatePaymentInfo/{paymentType}{paymentAmount}")]
+        [HttpPost("CreatePaymentInfo/{paymentType}/{paymentAmount}")]
         public void CreatePaymentInfo(string paymentType, int paymentAmount, [FromBody]Guid counterParty)
         {
             using (PaymentContext context = new PaymentContext(options))
