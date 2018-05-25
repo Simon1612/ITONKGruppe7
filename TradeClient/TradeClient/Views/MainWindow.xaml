@@ -38,14 +38,14 @@
                                 Width="120" HorizontalAlignment="Right" Margin="0,85,483,313" />
 
 
-                        <Label x:Name="MySharesLabel" Content="My Shares" Height="35" Margin="221,251,373,157" />
+                        <Label x:Name="MySharesLabel" Content="My Shares" Height="35" Margin="221,241,373,167" />
 
                         <ListView x:Name="MySharesListView"
                                   ItemsSource="{Binding MyShares}"
                                   DisplayMemberPath="Name"
                                   SelectedItem="{Binding SelectedMyShare}"
                                   Height="142"
-                                  Margin="221,0,0,10"
+                                  Margin="221,0,0,20"
                                   HorizontalAlignment="Left"
                                   Width="366"
                                   VerticalAlignment="Bottom">
@@ -62,20 +62,20 @@
                         </ListView>
 
                         <Button x:Name="MarkSharesForSaleButton" Content="Mark shares for sale"
-                                Command="{Binding MarkSharesForSaleCommand}" Margin="85,291,483,109" />
-                        <Label Content="Current User:" Height="29" Margin="10,6,578,408" />
+                                Command="{Binding MarkSharesForSaleCommand}" Margin="85,281,483,119" />
+                        <Label Content="Current User:" Height="29" Margin="84,6,504,408" />
                         <ComboBox x:Name="SelectUserCbx"
                                   HorizontalAlignment="Left"
-                                  Margin="110,9,0,0"
+                                  Margin="184,9,0,0"
                                   VerticalAlignment="Top"
-                                  Width="262"
+                                  Width="250"
                                   ItemsSource="{Binding Path= Users}"
                                   DisplayMemberPath="UserId"
                                   SelectedValuePath="{Binding CurrentUser}"
                                   SelectedItem="{Binding CurrentUser}"
                                   Height="21" />
                         <Button Content="Refresh" HorizontalAlignment="Left" Command="{Binding RefreshCommand}"
-                                VerticalAlignment="Top" Width="75" Margin="392,10,0,0" />
+                                VerticalAlignment="Top" Width="75" Margin="456,10,0,0" />
 
                     </Grid>
 
@@ -83,19 +83,19 @@
                 <TabItem Header="Admin">
 
                     <Grid>
-                        <Label Content="Create User:" Height="29" Width="100" Margin="95,10,493,404" />
+                        <Label Content="Create User:" Height="29" Width="100" Margin="84,10,504,404" />
                         <TextBox x:Name="CreateUserTbx" HorizontalAlignment="Left"
-                                 TextWrapping="Wrap" Text="{Binding CreateUserGuid, Mode=TwoWay}" VerticalAlignment="Top" Width="265" Margin="221,19,0,0" />
+                                 TextWrapping="Wrap" Text="{Binding CreateUserGuid, Mode=TwoWay}" VerticalAlignment="Top" Width="265" Margin="189,15,0,0" />
                         <Button Content="Create user" HorizontalAlignment="Left" Command="{Binding CreateUserCommand}"
-                                VerticalAlignment="Top" Width="75" Margin="512,19,0,0" />
+                                VerticalAlignment="Top" Width="75" Margin="478,15,0,0" />
 
-                        <Label Content="Users:" Width="100" HorizontalAlignment="Left" Margin="221,0,0,320" Height="29"
+                        <Label Content="Users:" Width="100" HorizontalAlignment="Left" Margin="221,0,0,321" Height="29"
                                VerticalAlignment="Bottom" />
                         <ListView x:Name="UsersListView"
                                   ItemsSource="{Binding Users}"
                                   DisplayMemberPath="UserId"
                                   Height="142" 
-                                  VerticalAlignment="Bottom" Margin="221,0,101,173" >
+                                  VerticalAlignment="Bottom" Margin="221,0,101,179" >
 
                             <ListView.View>
                                 <GridView>
@@ -104,10 +104,9 @@
                             </ListView.View>
                         </ListView>
                         <Button Content="Generate UserId" HorizontalAlignment="Left" Command="{Binding GenerateUserIdCommand}"
-                            VerticalAlignment="Top" Width="135" Margin="289,42,0,0" />
+                            VerticalAlignment="Top" Width="100" Margin="266,38,0,0" />
+                        <Button Content="Create Shares" Margin="85,122,503,276" Command="{Binding CreateSharesCommand}" RenderTransformOrigin="0.623,0.469"/>
                     </Grid>
-
-
                 </TabItem>
 
 
