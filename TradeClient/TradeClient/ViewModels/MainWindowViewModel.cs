@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Dynamic;
 using System.Linq;
 using System.Windows.Input;
 using TradeClient.Helpers;
@@ -16,12 +17,32 @@ namespace TradeClient.ViewModels
 
         public Share SelectedAvailableShare { get; set; }
         public Share SelectedMyShare { get; set; }
-        public User CurrentUser { get; set; }
+
+        private User _currentUser;
+        public User CurrentUser
+        {
+            get => _currentUser;
+            set
+            {
+                if (_currentUser == null)
+                {
+                    _currentUser = value;
+                    OnRefresh();
+                }
+
+                else if (!(_currentUser.UserId == value.UserId))
+                {
+                    _currentUser = value;
+                    OnRefresh();
+                }
+            }
+        }
+        public int CurrentUserIndex { get; set; }
 
         public ICommand BuySharesCommand { get; set; }
         public ICommand MarkSharesForSaleCommand { get; set; }
 
-        public ICommand RefreshCommand { get; set; }
+        //public ICommand RefreshCommand { get; set; }
 
         /* Admin */
         public ICommand CreateSharesCommand { get; set; }
@@ -36,9 +57,7 @@ namespace TradeClient.ViewModels
 
         public MainWindowViewModel()
         {
-            // Get stuff from db
-            AvailableShares =
-                new ObservableCollection<Share>() {new Share() {Amount = 1337, StockId = "ASDF", Price = 15.32m}};
+            AvailableShares = new ObservableCollection<Share>() {new Share() {Amount = 1337, StockId = "ASDF", Price = 15.32m}};
             MyShares = new ObservableCollection<Share>() {new Share() {Amount = 1337, StockId = "ASDF", Price = 20.5m}};
             Users = new ObservableCollection<User>();
 
@@ -47,9 +66,11 @@ namespace TradeClient.ViewModels
 
             CreateUserCommand = new RelayCommand(OnCreateUser);
             CreateSharesCommand = new RelayCommand(OnCreateShares);
-            RefreshCommand = new RelayCommand(OnRefresh);
+            //RefreshCommand = new RelayCommand(OnRefresh);
             GenerateUserIdCommand = new RelayCommand(OnGenerateUserId);
         }
+
+
 
         #region Trading
 
@@ -79,6 +100,7 @@ namespace TradeClient.ViewModels
 
         private void OnRefresh()
         {
+            var asdf = 5;
             //Get shares and stuff for current user
             //Notify collections changed
         }

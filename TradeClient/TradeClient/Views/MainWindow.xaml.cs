@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Controls;
 using TradeClient.ViewModels;
 using TradeClient.Helpers;
 
@@ -17,11 +18,6 @@ namespace TradeClient
 
             ViewModelLocator.Instance.ViewModel = _mainWindowViewModel;
             DataContext = _mainWindowViewModel;
-        }
-
-        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
-        {
-
         }
     }
 }
