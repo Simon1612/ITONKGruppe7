@@ -11,6 +11,6 @@ namespace ShareOwnerControlAPI.Models
 
         [Key]
         public int Id { get; set; }
-        public Guid ShareHolder { get; set; } //Kan være ShareOwner eller ShareHolder, ved ikke hvad er bedst
+        public Guid ShareHolderId { get; set; } //Kan være ShareOwner eller ShareHolder, ved ikke hvad er bedst
     }
 }

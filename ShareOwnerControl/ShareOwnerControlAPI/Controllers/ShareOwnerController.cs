@@ -3,103 +3,139 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using ShareOwnerControlAPI.Models;
+using System.Collections.Generic;
 
 namespace ShareOwnerControlAPI.Controllers
 {
     [Route("api/[controller]")]
     public class ShareOwnerController : Controller
     {
-        // GET api/values/5
         [HttpGet("GetStockInfo/{stockId}")]
         public ShareDataModel GetStockInfo(string stockId)
         {
             using (ShareOwnerContext context = new ShareOwnerContext(options))
             {
-                var stockInfo = context.ShareDataModel
-                                       .Where(x => x.StockId.Equals(stockId))
-                                       .SingleOrDefault();
+                return context.ShareDataModel
+                              .Where(x => x.StockId.Equals(stockId))
+                              .SingleOrDefault();
+            }
+        }
 
-                if (!stockInfo.Equals(null))
-                {
-                    return stockInfo;
-                } else
-                {
-                    return new ShareDataModel(); //Ikke sikker på hvad default retur-værdi ellers skal være
-                }
+        [HttpGet("GetAllSharesForUser/{userId}")]
+        public List<ShareOwnerDataModel> GetAllSharesForUser(Guid userId)
+        {
+            using (ShareOwnerContext context = new ShareOwnerContext(options))
+            {
+                var user = context.OwnerDataModel.Where(x => x.ShareHolderId.Equals(userId)).Single();
+                var shareOwner = context.ShareOwnerDataModel
+                              .Where(x => x.ShareOwner.Equals(user))
+                              .ToList();
+
+                return shareOwner;
             }
         }
 
         [HttpGet("VerifyShareOwnership/{stockId}")]
-        public bool VerifyShareOwnership(string stockId, [FromBody]Guid userId, int sharesAmount)
+        public bool VerifyShareOwnership(string stockId, Guid userId, int sharesAmount)
         {
             using (ShareOwnerContext context = new ShareOwnerContext(options))
             {
                 var shareOwnerData = context.ShareOwnerDataModel
-                                        .Where(x => x.ShareOwner.Equals(userId))
-                                        .Where(y => y.StockId.Equals(stockId))
+                                        .Where(x => x.ShareOwner.ShareHolderId.Equals(userId) && x.Stock.StockId.Equals(stockId))
                                         .SingleOrDefault();
-                //Validerer på om useren ejer de assigned stocks og om antallet passer og returnere en bool baseret på dette
-                if (!shareOwnerData.Equals(null))
+
+                if (shareOwnerData != null)
                 {
                     if(shareOwnerData.SharesAmount >= sharesAmount)
                     {
                         return true;
                     }
-                    return false;
                 }
                 return false;
             }
         }
-
-        // PUT api/values/5
+        
         [HttpPut("UpdateShareOwnership/{stockId}")]
         public void UpdateShareOwnership(string stockId, [FromBody]Guid requester, Guid provider, int sharesAmount)
         {
-            //Check if requester have relation to stock. If yes´, update amount with old + new. If no, create new relation.
-            //Subtract sharesAmount from providers relation to stock. If 0, delete relation.
             using (ShareOwnerContext context = new ShareOwnerContext(options))
             {
                 if(VerifyShareOwnership(stockId, provider, sharesAmount))
                 {
                     var newShareOwnerData = context.ShareOwnerDataModel
-                                            .Where(x => x.ShareOwner.Equals(requester))
-                                            .Where(y => y.StockId.Equals(stockId))
-                                            .SingleOrDefault();
+                                                   .Where(x => x.ShareOwner.ShareHolderId.Equals(requester) && x.Stock.StockId.Equals(stockId))
+                                                   .SingleOrDefault();
 
                     var oldShareOwnerData = context.ShareOwnerDataModel
-                                            .Where(x => x.ShareOwner.Equals(provider))
-                                            .Where(y => y.StockId.Equals(stockId))
-                                            .SingleOrDefault();
-                    if(!oldShareOwnerData.Equals(null))
+                                                   .Where(x => x.ShareOwner.ShareHolderId.Equals(provider) && x.Stock.StockId.Equals(stockId))
+                                                   .SingleOrDefault();
+
+                    if(oldShareOwnerData != null)
                     { 
                         if(!(oldShareOwnerData.SharesAmount < sharesAmount))
                         { 
-                            if (newShareOwnerData.Equals(null))
+                            if (newShareOwnerData == null)
                             {
-                                context.Add(new ShareOwnerDataModel { ShareOwner = requester, SharesAmount = sharesAmount, StockId = stockId });
+                                var shareOwner = context.OwnerDataModel
+                                                        .Where(x => x.ShareHolderId.Equals(requester))
+                                                        .Single();
+
+                                var stock = context.ShareDataModel
+                                                   .Where(x => x.StockId.Equals(stockId))
+                                                   .Single();
+
+                                context.ShareOwnerDataModel.Add(new ShareOwnerDataModel { ShareOwner = shareOwner, SharesAmount = sharesAmount, Stock = stock });
                             }
                             else {
                                 newShareOwnerData.SharesAmount += sharesAmount;
-                                context.Update(newShareOwnerData);
+                                context.ShareOwnerDataModel.Update(newShareOwnerData);
                             }
+
                             oldShareOwnerData.SharesAmount -= sharesAmount;
-                            context.Update(oldShareOwnerData);
+
+                            context.ShareOwnerDataModel.Update(oldShareOwnerData);
                             context.SaveChanges();
                         }
                     }
-                    return;
                 }
             }
         }
 
-        [HttpPost("CreateShareOwnership/{stockId}{sharesAmount}")]
+        [HttpPost("CreateShareOwnership/{stockId}/{sharesAmount}")]
         public void CreateShareOwnership(string stockId, [FromBody]Guid userId, int sharesAmount)
         {
-            //Create new user if not present 
-            //Create new stock if not present
-            //Create relation between user and stock
             using (ShareOwnerContext context = new ShareOwnerContext(options))
             {
+                var user = context.OwnerDataModel
+                                  .Where(x => x.ShareHolderId.Equals(userId))
+                                  .SingleOrDefault();
+
+                var stock = context.ShareDataModel
+                                   .Where(x => x.StockId.Equals(stockId))
+                                   .SingleOrDefault();
+                
+                if (user == null)
+                {
+                    user = new OwnerDataModel() { ShareHolderId = userId };
+                    context.OwnerDataModel.Add(user);
+                }
+                
+                if(stock == null)
+                {
+                    stock = new ShareDataModel()
+                    {
+                        StockId = stockId,
+                    };
+                    context.ShareDataModel.Add(stock);
+                }
+                
+                context.ShareOwnerDataModel.Add(new ShareOwnerDataModel()
+                {
+                    Stock = stock,
+                    SharesAmount = sharesAmount,
+                    ShareOwner = user
+                });
+                context.SaveChanges();
             }
         }
 
