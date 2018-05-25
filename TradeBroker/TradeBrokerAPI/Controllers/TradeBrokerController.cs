@@ -8,7 +8,7 @@ namespace TradeBrokerAPI.Controllers
     public class TradeBrokerController : Controller
     {
         [HttpPost("InitiateTrade/{stockId}{sharesAmount}")]
-        public void InitiateTrade(string stockId, int sharesAmount, [FromBody]string requester)
+        public void InitiateTrade(string stockId, int sharesAmount, [FromBody]Guid requesterId)
         {
             //Modtag request fra StockShareRequester -> InitiateTrade kaldes fra StockShareRequesteren
             //Request AvailableShares for stockName fra StockShareProvider
