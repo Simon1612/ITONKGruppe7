@@ -37,8 +37,9 @@ namespace TradeClient.ViewModels
         public MainWindowViewModel()
         {
             // Get stuff from db
-            AvailableShares = new ObservableCollection<Share>(){ new Share(){Amount = 1337, StockId = "ASDF", Price = 15.32m}};
-            MyShares = new ObservableCollection<Share>(){ new Share() { Amount = 1337, StockId = "ASDF", Price = 20.5m }};
+            AvailableShares =
+                new ObservableCollection<Share>() {new Share() {Amount = 1337, StockId = "ASDF", Price = 15.32m}};
+            MyShares = new ObservableCollection<Share>() {new Share() {Amount = 1337, StockId = "ASDF", Price = 20.5m}};
             Users = new ObservableCollection<User>();
 
             BuySharesCommand = new RelayCommand(OnBuyShares, () => SelectedAvailableShare != null);
@@ -54,7 +55,7 @@ namespace TradeClient.ViewModels
 
         private void OnMarkSharesForSale()
         {
-            var dlg = new PickAmountDialog(SelectedMyShare) { Owner = App.Current.MainWindow };
+            var dlg = new PickAmountDialog(SelectedMyShare) {Owner = App.Current.MainWindow};
             if (dlg.ShowDialog() == true)
             {
                 var amountToMark = Convert.ToInt32(dlg.AmountTbx.Text);
@@ -66,7 +67,7 @@ namespace TradeClient.ViewModels
 
         private void OnBuyShares()
         {
-            var dlg = new PickAmountDialog(SelectedAvailableShare) { Owner = App.Current.MainWindow };
+            var dlg = new PickAmountDialog(SelectedAvailableShare) {Owner = App.Current.MainWindow};
             if (dlg.ShowDialog() == true)
             {
                 var amountToMark = Convert.ToInt32(dlg.AmountTbx.Text);
@@ -98,14 +99,14 @@ namespace TradeClient.ViewModels
             if (!userExists)
             {
                 //Create user with CreateUserGuid API call
-                Users.Add(new User() { UserId = CreateUserGuid });
+                Users.Add(new User() {UserId = CreateUserGuid});
                 Notify("Users");
             }
         }
 
         private void OnCreateShares()
         {
-            var dlg = new CreateShareDialog(Users) { Owner = App.Current.MainWindow };
+            var dlg = new CreateShareDialog(Users) {Owner = App.Current.MainWindow};
             if (dlg.ShowDialog() == true)
             {
                 var newShare = new Share()
@@ -139,5 +140,5 @@ namespace TradeClient.ViewModels
 
         #endregion
 
-
+    }
 }

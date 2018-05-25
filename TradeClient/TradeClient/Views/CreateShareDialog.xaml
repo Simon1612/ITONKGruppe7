@@ -6,14 +6,14 @@
         xmlns:local="clr-namespace:TradeClient.Views"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
-        Title="PickAmountDialog" Height="300" Width="300">
+        Title="CreateShareDialog" Height="300" Width="300">
     <Grid>
         <Label Content="StockId:" HorizontalAlignment="Left" Margin="77,22,0,0" VerticalAlignment="Top"/>
         <TextBox x:Name="StockIdTbx" Text="{Binding CurrentShare.Id}" HorizontalAlignment="Left" Margin="149,27,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58"/>
         <Label Content="Price/share:" HorizontalAlignment="Left" Margin="77,63,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="PriceTbx" HorizontalAlignment="Left" Margin="151,68,0,0" TextWrapping="Wrap" Text="{Binding CurrentShare.Price}" VerticalAlignment="Top" Width="58"/>
+        <TextBox x:Name="PriceTbx" HorizontalAlignment="Left" Margin="151,68,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="58"/>
         <Label Content="Amount:" HorizontalAlignment="Left" Margin="77,96,0,0" VerticalAlignment="Top"/>
-        <TextBox x:Name="AmountTbx" HorizontalAlignment="Left" Height="18" Margin="151,100,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="69"/>
+        <TextBox x:Name="AmountTbx" HorizontalAlignment="Left" Height="18" Margin="151,100,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="69"/>
         <Button Content="OK" Command="{Binding OkCommand}" HorizontalAlignment="Left" Margin="170,225,0,0" VerticalAlignment="Top" Width="75"/>
         <Button Content="Cancel" HorizontalAlignment="Left" Margin="63,225,0,0" VerticalAlignment="Top" Width="75" IsCancel="True"/>
         <Label Content="Owner:" HorizontalAlignment="Left" Margin="77,128,0,0" VerticalAlignment="Top"/>
