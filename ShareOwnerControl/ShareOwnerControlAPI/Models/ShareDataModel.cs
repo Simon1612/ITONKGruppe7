@@ -12,5 +12,6 @@ namespace ShareOwnerControlAPI.Models
         public int Id { get; set; }
         public string StockId { get; set; }
         public int AllSharesAmount { get; set; }
+        public int SharePrice { get; set; }
     }
 }
