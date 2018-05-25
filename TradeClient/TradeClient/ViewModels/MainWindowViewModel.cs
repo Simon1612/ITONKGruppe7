@@ -14,9 +14,11 @@ namespace TradeClient.ViewModels
         /* Trading */
         public ObservableCollection<Share> AvailableShares { get; set; }
         public ObservableCollection<Share> MyShares { get; set; }
+        public ObservableCollection<Share> MyMarkedShares { get; set; }
 
         public Share SelectedAvailableShare { get; set; }
         public Share SelectedMyShare { get; set; }
+        public Share SelectedMyMarkedShare { get; set; }
 
         private User _currentUser;
         public User CurrentUser
@@ -42,7 +44,7 @@ namespace TradeClient.ViewModels
         public ICommand BuySharesCommand { get; set; }
         public ICommand MarkSharesForSaleCommand { get; set; }
 
-        //public ICommand RefreshCommand { get; set; }
+        public ICommand RefreshCommand { get; set; }
 
         /* Admin */
         public ICommand CreateSharesCommand { get; set; }
@@ -57,8 +59,18 @@ namespace TradeClient.ViewModels
 
         public MainWindowViewModel()
         {
-            AvailableShares = new ObservableCollection<Share>() {new Share() {Amount = 1337, StockId = "ASDF", Price = 15.32m}};
-            MyShares = new ObservableCollection<Share>() {new Share() {Amount = 1337, StockId = "ASDF", Price = 20.5m}};
+            //TODO: Init collections empty and get list of users, available shares, all my shares, my marked shares
+
+
+            var availableShare = new Share() {Amount = 30, StockId = "ABC", Price = 15.32m};
+            AvailableShares = new ObservableCollection<Share>() {availableShare};
+
+            var markedShare = new Share() {Amount = 10, StockId = "GHI", Price = 2.352m};
+            MyMarkedShares = new ObservableCollection<Share>() {markedShare};
+
+            var myShare = new Share() {Amount = 20, StockId = "DEF", Price = 20.5m};
+            MyShares = new ObservableCollection<Share>() {myShare, markedShare};
+
             Users = new ObservableCollection<User>();
 
             BuySharesCommand = new RelayCommand(OnBuyShares, () => SelectedAvailableShare != null);
@@ -66,7 +78,7 @@ namespace TradeClient.ViewModels
 
             CreateUserCommand = new RelayCommand(OnCreateUser);
             CreateSharesCommand = new RelayCommand(OnCreateShares);
-            //RefreshCommand = new RelayCommand(OnRefresh);
+            RefreshCommand = new RelayCommand(OnRefresh);
             GenerateUserIdCommand = new RelayCommand(OnGenerateUserId);
         }
 
