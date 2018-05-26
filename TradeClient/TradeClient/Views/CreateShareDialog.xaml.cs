@@ -45,7 +45,8 @@ namespace TradeClient.Views
             return Regex.Match(AmountTbx.Text, @"^[1-9]\d*$").Success 
                    && Regex.Match(PriceTbx.Text, @"^[+]?\d+([.]\d+)?$").Success 
                    && Convert.ToDecimal(PriceTbx.Text) != 0 
-                   && !String.IsNullOrWhiteSpace(StockIdTbx.Text);
+                   && !String.IsNullOrWhiteSpace(StockIdTbx.Text)
+                   && !String.IsNullOrWhiteSpace(SelectUserCbx.SelectionBoxItem.ToString());
         }
 
         private void OnOkClicked()

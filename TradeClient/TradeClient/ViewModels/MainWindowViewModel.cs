@@ -173,21 +173,8 @@ namespace TradeClient.ViewModels
                     Amount = Convert.ToInt32(dlg.AmountTbx.Text)
                 };
 
-                var selectedOwner = dlg.SelectUserCbx.SelectionBoxItem;
-
-                //If no owner selected
-                if (String.IsNullOrWhiteSpace(selectedOwner.ToString()))
-                {
-                    //Create Share with no owner? if no owner share should automatically be marked for sale and immediately be added to availableshares list
-
-                }
-                else
-                {
-                    var owner = selectedOwner as User;
-                    //Create share with owner
-
-
-                }
+                var owner = dlg.SelectUserCbx.SelectionBoxItem as User;
+                //Create share with owner
             }
         }
 
