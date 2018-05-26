@@ -23,3 +23,6 @@ C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\Shar
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.AssemblyInfo.cs
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.dll
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.pdb
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\bin\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.pdb
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\ShareOwnerControl\ShareOwnerControlAPI\obj\Debug\netcoreapp2.0\win7-x64\ShareOwnerControlAPI.pdb
