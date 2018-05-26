@@ -16,9 +16,9 @@ namespace TradeBrokerAPI
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class TradeBrokerAPI : StatelessService
+    internal sealed class TradeBrokerApi : StatelessService
     {
-        public TradeBrokerAPI(StatelessServiceContext context)
+        public TradeBrokerApi(StatelessServiceContext context)
             : base(context)
         { }
 

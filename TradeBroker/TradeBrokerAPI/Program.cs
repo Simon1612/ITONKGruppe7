@@ -21,9 +21,9 @@ namespace TradeBrokerAPI
                 // an instance of the class is created in this host process.
 
                 ServiceRuntime.RegisterServiceAsync("TradeBrokerAPIType",
-                    context => new TradeBrokerAPI(context)).GetAwaiter().GetResult();
+                    context => new TradeBrokerApi(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TradeBrokerAPI).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(TradeBrokerApi).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

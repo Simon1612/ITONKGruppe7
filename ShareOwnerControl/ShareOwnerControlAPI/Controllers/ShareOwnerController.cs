@@ -46,6 +46,7 @@ namespace ShareOwnerControlAPI.Controllers
             }
         }
 
+        //TODO: FIX THIS ONE TO PROPERLY REMOVE AND APPLY NEW OWNERSHIP ETC
         [HttpPut("UpdateShareOwnership/{stockId}")]
         public void UpdateShareOwnership(string stockId, [FromBody]Guid requester, Guid provider, int sharesAmount)
         {

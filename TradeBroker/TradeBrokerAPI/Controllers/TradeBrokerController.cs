@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using TradeBrokerAPI.Clients;
 
 namespace TradeBrokerAPI.Controllers
@@ -9,90 +11,104 @@ namespace TradeBrokerAPI.Controllers
     [Route("api/[controller]")]
     public class TradeBrokerController : Controller
     {
-        [HttpPost("InitiateTrade/{stockId}{sharesAmount}")]
+        [HttpPost("InitiateTrade/{stockId}/{sharesAmount}")]
         public void InitiateTrade(string stockId, int sharesAmount, [FromBody]Guid requesterId)
         {
             var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
             var paymentControlClient = new PaymentControlClient("http://localhost:8965");
+            var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
 
-            int numberOfAvailableShares = 0;
-            List<Guid> chosenShareProviders = new List<Guid>();
-            List<PaymentDataModel> paymentsToProcess = new List<PaymentDataModel>();
+            var numberOfAvailableShares = 0;
+            var chosenShareProviders = new List<string>();
+            var paymentsToProcess = new List<PaymentDataModel>();
 
             var availableShares = stockShareProviderClient.ApiStockShareProviderGetSharesForSaleByStockIdGetAsync(stockId).Result;
+            var stockInfo = shareOwnerControlClient.ApiShareOwnerGetStockInfoByStockIdGetAsync(stockId).Result;
 
             foreach (var share in availableShares)
             {
-                numberOfAvailableShares += (int)share.SharesAmount;
+                if (share.SharesAmount != null)
+                    numberOfAvailableShares += share.SharesAmount.Value;
+                else
+                {
+                    BadRequest();
+                }
             }
 
-            if (sharesAmount <= numberOfAvailableShares)
+            if (sharesAmount > numberOfAvailableShares) return;
+            var reservedShares = 0;
+            var index = 0;
+
+            while (reservedShares < sharesAmount)
             {
-                int reservedShares = 0;
-                int index = 0;
+                chosenShareProviders.Add(availableShares[index].StockOwner.Value.ToString());
 
-                while (reservedShares < sharesAmount)
+                if (availableShares[index].SharesAmount <= (sharesAmount - reservedShares))
                 {
-                    chosenShareProviders.Add((Guid)availableShares[index].StockOwner);
+                    reservedShares += (int)availableShares[index].SharesAmount;
 
-                    if (availableShares[index].SharesAmount <= (sharesAmount - reservedShares))
-                    {
-                        reservedShares += (int)availableShares[index].SharesAmount;
+                    stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(stockId,
+                        availableShares[index].StockOwner,
+                        availableShares[index].SharesAmount);
 
-                        stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(stockId,
-                            availableShares[index].StockOwner,
-                            availableShares[index].SharesAmount);
+                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = (stockInfo.SharePrice * availableShares[index].SharesAmount) });
+                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = requesterId, PaymentType = "Invoice", PaymentAmount = (stockInfo.SharePrice * availableShares[index].SharesAmount) });
+                }
+                else
+                {
+                    stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(stockId,
+                        availableShares[index].StockOwner,
+                        (sharesAmount - reservedShares));
 
-                        //TODO: Get prices from shareownercontrol * shares reserved instead of 0
-                        paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = 0 });
-                        paymentsToProcess.Add(new PaymentDataModel { CounterParty = requesterId, PaymentType = "Invoice", PaymentAmount = 0 });
-                    }
-                    else
-                    {
-                        stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(stockId,
-                            availableShares[index].StockOwner,
-                            (sharesAmount - reservedShares));
+                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = (sharesAmount - reservedShares) });
+                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = requesterId, PaymentType = "Invoice", PaymentAmount = (sharesAmount - reservedShares) * stockInfo.SharePrice });
 
-                        //TODO: Get prices from shareownercontrol * shares reserved instead of 0
-                        paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = 0 });
-                        paymentsToProcess.Add(new PaymentDataModel { CounterParty = requesterId, PaymentType = "Invoice", PaymentAmount = 0 });
-
-                        reservedShares = sharesAmount;
-                    }
-
-                    index++;
+                    reservedShares = sharesAmount;
                 }
 
-                foreach (var payment in paymentsToProcess)
-                {
-                    paymentControlClient.ApiPaymentCreatePaymentInfoByPaymentTypeByPaymentAmountPostAsync(payment.PaymentType, (int)payment.PaymentAmount, payment.CounterParty);
-                }
+                index++;
+            }
 
-                using (TradeLogContext context = new TradeLogContext(options))
-                {
-                    context.Add(new TradeDataModel { StockId = stockId, SharesAmount = sharesAmount, StockRequester = requesterId, StockProviders = chosenShareProviders });
-                    context.SaveChanges();
-                }
+            foreach (var payment in paymentsToProcess)
+            {
+                paymentControlClient.ApiPaymentCreatePaymentInfoByPaymentTypeByPaymentAmountPostAsync(payment.PaymentType, payment.PaymentAmount.Value, payment.CounterParty);
+            }
 
-                //TODO: Kald ShareOwnerControl og tildel sharesAmount af stockId til requesterId
+            using (var context = new TradeLogContext(Options))
+            {
+                var value = new TradeDataModel
+                {
+                    StockId = stockId,
+                    SharesAmount = sharesAmount,
+                    StockRequester = requesterId,
+                    StockProviders = JsonConvert.SerializeObject(chosenShareProviders)
+                };
+                var tradeData = JsonConvert.SerializeObject(value);
+                context.Add(tradeData);
+                context.SaveChanges();
+                //TODO: UDSKIFT TIL NORMAL DATABASE UDEN ENTITYFRAMEWORKS. UNDERLIG STRING FEJL HER
+            }
+
+            foreach (var payment in paymentsToProcess)
+            {
+                if (payment.PaymentType.Equals("Payment"))
+                {
+                    shareOwnerControlClient.ApiShareOwnerUpdateShareOwnershipByStockIdPutAsync(stockId, requesterId,
+                        payment.CounterParty, payment.PaymentAmount / stockInfo.SharePrice);
+                }
             }
         }
 
         [HttpGet("GetTradeData/{tradeDataId}")]
         public TradeDataModel GetTradeData(int tradeDataId)
         {
-            var options = new DbContextOptionsBuilder<TradeLogContext>()
-                .UseInMemoryDatabase(databaseName: "TradeLogDb")
-                .Options;
-            using (TradeLogContext context = new TradeLogContext(options))
+            using (var context = new TradeLogContext(Options))
             {
-                TradeDataModel model;
-                model = context.Find<TradeDataModel>(tradeDataId);
-                return model;
+                return JsonConvert.DeserializeObject<TradeDataModel>(context.TradeData.SingleOrDefault(x => x.Id == tradeDataId)?.ToString());
             }
         }
 
-        public DbContextOptions<TradeLogContext> options = new DbContextOptionsBuilder<TradeLogContext>()
+        public DbContextOptions<TradeLogContext> Options = new DbContextOptionsBuilder<TradeLogContext>()
                 .UseInMemoryDatabase(databaseName: "TradeLogDb")
                 .Options;
     }
