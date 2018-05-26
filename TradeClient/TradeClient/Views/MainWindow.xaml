@@ -1,0 +1,243 @@
+﻿<Window x:Class="TradeClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TradeClient"
+        mc:Ignorable="d"
+        Title="Trading Client" Height="500" Width="700"
+        ResizeMode="NoResize">
+    <Grid>
+        <DockPanel>
+            <TabControl Name="TabControl">
+                <TabItem Header="Trading">
+                    <Grid>
+                        <Label x:Name="AvailableSharesLabel" 
+                               Content="Available Shares" 
+                               Margin="221,36,346,372" 
+                               FontWeight="Bold" />
+
+                        <ListView x:Name="AvailableSharesListView"
+                                  ItemsSource="{Binding AvailableShares}"
+                                  DisplayMemberPath="Name"
+                                  SelectedItem="{Binding SelectedAvailableShare}"
+                                  Margin="224,0,90,229"
+                                  Height="142"
+                                  VerticalAlignment="Bottom">
+
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="StockId" 
+                                                    Width="110"
+                                                    DisplayMemberBinding="{Binding StockId}">
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Price/share" 
+                                                    Width="110"
+                                                    DisplayMemberBinding="{Binding Price}">
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Amount"
+                                                    Width="110" DisplayMemberBinding="{Binding Amount}">
+                                    </GridViewColumn>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <Button x:Name="BuySharesButton"
+                                Content="Buy Shares"
+                                Command="{Binding BuySharesCommand}"
+                                Margin="85,72,482,326" />
+                        <Label Content="Current User:" 
+                               Height="29" 
+                               Margin="75,6,513,408" />
+                        <TextBox IsReadOnly="True" 
+                                 Text="{Binding Path=CurrentUser.UserId}" 
+                                 HorizontalAlignment="Left"
+                                 Margin="175,10,0,0" 
+                                 TextWrapping="Wrap" 
+                                 VerticalAlignment="Top" 
+                                 Width="233"
+                                 Height="20" />
+
+                        <TabControl Name="MySharesTabControl" 
+                                    Margin="59,250,90,26">
+                            <TabItem Header="All shares">
+                                <Grid Margin="0,0,0,4">
+
+                                    <Button x:Name="MarkSharesForSaleButton"
+                                            Content="Mark shares for sale"
+                                            Command="{Binding MarkSharesForSaleCommand}" 
+                                            Margin="19,33,393,57" />
+
+                                    <ListView x:Name="MySharesListView"
+                                              ItemsSource="{Binding MyShares}"
+                                              DisplayMemberPath="Name"
+                                              SelectedItem="{Binding SelectedMyShare}"
+                                              Height="140"
+                                              Margin="163,-3,-1,-5"
+                                              HorizontalAlignment="Left"
+                                              Width="371"
+                                              VerticalAlignment="Top">
+
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="StockId" 
+                                                                Width="110" 
+                                                                DisplayMemberBinding="{Binding StockId}">
+                                                </GridViewColumn>
+                                                <GridViewColumn Header="Price/share"
+                                                                Width="110"
+                                                                DisplayMemberBinding="{Binding Price}">
+                                                </GridViewColumn>
+                                                <GridViewColumn Header="Amount" 
+                                                                Width="110" DisplayMemberBinding="{Binding Amount}">
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+                                </Grid>
+                            </TabItem>
+                            <TabItem Header="Marked for sale">
+                                <Grid Margin="0,0,0,4">
+
+                                    <Button x:Name="UnarkSharesForSaleButton"
+                                            Content="Unmark shares"
+                                            Command="{Binding UnmarkSharesCommand}"
+                                            Margin="19,33,393,57" />
+
+                                    <ListView x:Name="MyMarkedSharesListView"
+                                              ItemsSource="{Binding MyMarkedShares}"
+                                              DisplayMemberPath="Name"
+                                              SelectedItem="{Binding SelectedMyMarkedShare}"
+                                              Height="142"
+                                              Margin="163,-3,-1,-5"
+                                              HorizontalAlignment="Left"
+                                              Width="371"
+                                              VerticalAlignment="Top">
+
+                                        <ListView.View>
+                                            <GridView>
+                                                <GridViewColumn Header="StockId" 
+                                                                Width="110"
+                                                                DisplayMemberBinding="{Binding StockId}">
+                                                </GridViewColumn>
+                                                <GridViewColumn Header="Price/share"
+                                                                Width="110"
+                                                                DisplayMemberBinding="{Binding Price}">
+                                                </GridViewColumn>
+                                                <GridViewColumn Header="Amount" 
+                                                                Width="110" 
+                                                                DisplayMemberBinding="{Binding Amount}">
+                                                </GridViewColumn>
+                                            </GridView>
+                                        </ListView.View>
+                                    </ListView>
+
+                                </Grid>
+                            </TabItem>
+
+
+
+                        </TabControl>
+
+
+
+
+                        <Button Content="Refresh" 
+                                HorizontalAlignment="Left"
+                                Command="{Binding RefreshCommand}"
+                                VerticalAlignment="Top" 
+                                Width="75"
+                                Margin="447,10,0,0" />
+                        <Label Content="My Shares"
+                               HorizontalAlignment="Left" 
+                               Margin="224,226,0,0"
+                               VerticalAlignment="Top" 
+                               FontWeight="Bold"/>
+
+                    </Grid>
+
+                </TabItem>
+                <TabItem Header="Admin">
+
+                    <Grid>
+                        <Label Content="Create User with id:" 
+                               Height="29"
+                               Margin="72,281,494,133" />
+
+                        <TextBox x:Name="CreateUserTbx" 
+                                 HorizontalAlignment="Left"
+                                 TextWrapping="Wrap" 
+                                 Text="{Binding CreateUserGuid, Mode=TwoWay}" 
+                                 VerticalAlignment="Top" 
+                                 Width="265" 
+                                 Margin="199,286,0,0"
+                                 IsReadOnly="true" />
+
+                        <Button Content="Create User" 
+                                HorizontalAlignment="Left"
+                                Command="{Binding CreateUserCommand}"
+                                VerticalAlignment="Top"
+                                Width="75" 
+                                Margin="488,286,0,0" />
+
+                        <Label Content="Current User:" Margin="75,6,506,400"/>
+
+                        <TextBox IsReadOnly="True" 
+                                 Text="{Binding Path=CurrentUser.UserId}" 
+                                 HorizontalAlignment="Left"
+                                 Margin="175,10,0,0" 
+                                 TextWrapping="Wrap" 
+                                 VerticalAlignment="Top" 
+                                 Width="233" 
+                                 Height="20" />
+
+
+
+                        <Label Content="Users:" 
+                               Width="100" 
+                               HorizontalAlignment="Left" 
+                               Margin="221,36,346,372" 
+                               FontWeight="Bold" />
+
+                        <ListView x:Name="UsersListView"
+                                  ItemsSource="{Binding Users}"
+                                  SelectedItem="{Binding SelectedUser}"
+                                  DisplayMemberPath="UserId"
+                                  Height="142" 
+                                  VerticalAlignment="Bottom"
+                                  Margin="224,0,98,228" >
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="UserId"
+                                                    Width="300"
+                                                    DisplayMemberBinding="{Binding UserId}"/>
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+
+                        <Button Content="Generate UserId"
+                                HorizontalAlignment="Left"
+                                Command="{Binding GenerateUserIdCommand}"
+                                VerticalAlignment="Top" 
+                                Width="100"
+                                Margin="276,309,0,0" />
+
+                        <Button Content="Create Shares" 
+                                Margin="85,73,491,325" 
+                                Command="{Binding CreateSharesCommand}" 
+                                RenderTransformOrigin="0.623,0.469"/>
+
+                        <Button Content="Switch User" 
+                                Margin="85,140,491,258" 
+                                Command="{Binding SwitchUserCommand}" 
+                                RenderTransformOrigin="0.623,0.469"/>
+                    </Grid>
+                </TabItem>
+
+
+
+
+            </TabControl>
+        </DockPanel>
+    </Grid>
+</Window>
