@@ -30,12 +30,15 @@ namespace TradeClient.ViewModels
                 {
                     _currentUser = value;
                     OnRefresh();
+                    Notify("CurrentUser");
                 }
 
                 else if (!(_currentUser.UserId == value.UserId))
                 {
                     _currentUser = value;
                     OnRefresh();
+                    Notify("CurrentUser");
+
                 }
             }
         }
@@ -43,14 +46,18 @@ namespace TradeClient.ViewModels
 
         public ICommand BuySharesCommand { get; set; }
         public ICommand MarkSharesForSaleCommand { get; set; }
+        public ICommand UnmarkSharesCommand { get; set; }
+
 
         public ICommand RefreshCommand { get; set; }
 
         /* Admin */
+        public ICommand SwitchUserCommand { get; set; }
         public ICommand CreateSharesCommand { get; set; }
         public ICommand CreateUserCommand { get; set; }
         public ICommand GenerateUserIdCommand { get; set; }
         public Guid CreateUserGuid { get; set; } = Guid.NewGuid();
+        public User SelectedUser { get; set; }
 
 
         /* Common */
@@ -71,17 +78,23 @@ namespace TradeClient.ViewModels
             var myShare = new Share() {Amount = 20, StockId = "DEF", Price = 20.5m};
             MyShares = new ObservableCollection<Share>() {myShare, markedShare};
 
-            Users = new ObservableCollection<User>();
+            var user = new User() {UserId = Guid.NewGuid()};
+            Users = new ObservableCollection<User>(){user};
+            CurrentUser = user;
 
+
+            /* Trading */
             BuySharesCommand = new RelayCommand(OnBuyShares, () => SelectedAvailableShare != null);
             MarkSharesForSaleCommand = new RelayCommand(OnMarkSharesForSale, () => SelectedMyShare != null);
+            UnmarkSharesCommand = new RelayCommand(OnUnmarkShares, () => SelectedMyMarkedShare != null);
 
+            /* Admin */
             CreateUserCommand = new RelayCommand(OnCreateUser);
             CreateSharesCommand = new RelayCommand(OnCreateShares);
             RefreshCommand = new RelayCommand(OnRefresh);
             GenerateUserIdCommand = new RelayCommand(OnGenerateUserId);
+            SwitchUserCommand = new RelayCommand(OnSwitchUser, () => SelectedUser != null && SelectedUser.UserId != CurrentUser.UserId);
         }
-
 
 
         #region Trading
@@ -97,6 +110,11 @@ namespace TradeClient.ViewModels
             }
         }
 
+        private void OnUnmarkShares()
+        {
+            //API call to unmark with info from SelectedMyMarkedShare
+            MyMarkedShares.Remove(SelectedMyMarkedShare);
+        }
 
         private void OnBuyShares()
         {
@@ -110,9 +128,9 @@ namespace TradeClient.ViewModels
 
         }
 
+        //Gets called every time CurrentUser property is set
         private void OnRefresh()
         {
-            var asdf = 5;
             //Get shares and stuff for current user
             //Notify collections changed
         }
@@ -122,6 +140,11 @@ namespace TradeClient.ViewModels
 
 
         #region Admin
+
+        private void OnSwitchUser()
+        {
+            CurrentUser = SelectedUser;
+        }
 
         private void OnCreateUser()
         {
@@ -155,12 +178,15 @@ namespace TradeClient.ViewModels
                 //If no owner selected
                 if (String.IsNullOrWhiteSpace(selectedOwner.ToString()))
                 {
-                    //Create Share with no owner?
+                    //Create Share with no owner? if no owner share should automatically be marked for sale and immediately be added to availableshares list
+
                 }
                 else
                 {
                     var owner = selectedOwner as User;
                     //Create share with owner
+
+
                 }
             }
         }
