@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace ShareOwnerControlAPI.Models
 {
@@ -11,8 +10,8 @@ namespace ShareOwnerControlAPI.Models
 
         [Key]
         public int Id { get; set; }
-        public string StockId { get; set; }
+        public ShareDataModel Stock { get; set; }
         public int SharesAmount { get; set; }
-        public Guid ShareOwner { get; set; }
+        public OwnerDataModel ShareOwner { get; set; }
     }
 }

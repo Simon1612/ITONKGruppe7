@@ -12,22 +12,20 @@ namespace StockShareProviderAPI.Controllers
         [HttpPost("CreateAvailableShares/{stockId}")]
         public void CreateAvailableShares(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
-            if (stockId != null && userId != null)
+            if (stockId == null) return;
+            using (var context = new AvailableSharesContext(options))
             {
-                using (AvailableSharesContext context = new AvailableSharesContext(options))
-                {
-                    context.Add(new AvailableSharesDataModel { StockId = stockId, StockOwner = userId, SharesAmount = sharesAmount });
-                    context.SaveChanges();
-                }
+                context.Add(new AvailableSharesDataModel { StockId = stockId, StockOwner = userId, SharesAmount = sharesAmount });
+                context.SaveChanges();
             }
         }
 
         [HttpPut("IncreaseSharesAmountForSale/{stockId}")]
         public void IncreaseSharesAmountForSale(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
-            using (AvailableSharesContext context = new AvailableSharesContext(options))
+            using (var context = new AvailableSharesContext(options))
             {
-                var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).Single();
+                var selectedStock = context.AvailableSharesDataModel.Single(x => x.StockId.Equals(stockId));
 
                 if (selectedStock.StockOwner.Equals(userId))
                 {
@@ -41,9 +39,9 @@ namespace StockShareProviderAPI.Controllers
         [HttpPut("DecreaseSharesAmountForSale/{stockId}")]
         public void DecreaseSharesAmountForSale(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
-            using (AvailableSharesContext context = new AvailableSharesContext(options))
+            using (var context = new AvailableSharesContext(options))
             {
-                var selectedStock = context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).Single();
+                var selectedStock = context.AvailableSharesDataModel.Single(x => x.StockId.Equals(stockId));
 
                 if (selectedStock.StockOwner.Equals(userId))
                 {
@@ -65,7 +63,7 @@ namespace StockShareProviderAPI.Controllers
         [HttpGet("GetSharesForSale/{stockId}")]
         public List<AvailableSharesDataModel> GetSharesForSale(string stockId)
         {
-            using (AvailableSharesContext context = new AvailableSharesContext(options))
+            using (var context = new AvailableSharesContext(options))
             {
                 return context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).ToList();
             }
@@ -74,7 +72,7 @@ namespace StockShareProviderAPI.Controllers
         [HttpGet]
         public List<AvailableSharesDataModel> GetAllSharesForSale()
         {
-            using (AvailableSharesContext context = new AvailableSharesContext(options))
+            using (var context = new AvailableSharesContext(options))
             {
                 return context.AvailableSharesDataModel.ToList();
             }

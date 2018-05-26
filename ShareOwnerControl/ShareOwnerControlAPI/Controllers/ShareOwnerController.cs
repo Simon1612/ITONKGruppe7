@@ -1,54 +1,127 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
+using ShareOwnerControlAPI.Models;
+using System.Collections.Generic;
 
 namespace ShareOwnerControlAPI.Controllers
 {
     [Route("api/[controller]")]
     public class ShareOwnerController : Controller
     {
-        // GET api/values/5
         [HttpGet("GetStockInfo/{stockId}")]
-        public string GetStockInfo(string stockId)
+        public ShareDataModel GetStockInfo(string stockId)
         {
-            using (ShareOwnerContext context = new ShareOwnerContext(options))
+            using (var context = new ShareOwnerContext(Options))
             {
-                return "stuff";
+                return context.ShareDataModel
+                              .SingleOrDefault(x => x.StockId.Equals(stockId));
+            }
+        }
+
+        [HttpGet("GetAllSharesForUser/{userId}")]
+        public List<ShareOwnerDataModel> GetAllSharesForUser(Guid userId)
+        {
+            using (var context = new ShareOwnerContext(Options))
+            {
+                return context.ShareOwnerDataModel
+                    .Where(shareOwnerModel => shareOwnerModel.ShareOwner.ShareHolderId.Equals(userId))
+                    .Include(share => share.Stock)
+                    .Include(user => user.ShareOwner)
+                    .ToListAsync().Result;
             }
         }
 
         [HttpGet("VerifyShareOwnership/{stockId}")]
-        public string VerifyShareOwnership(string stockId, [FromBody]Guid userId, int sharesAmount)
+        public bool VerifyShareOwnership(string stockId, Guid userId, int sharesAmount)
         {
-            using (ShareOwnerContext context = new ShareOwnerContext(options))
+            using (var context = new ShareOwnerContext(Options))
             {
-                return "stuff";
+                var shareOwnerData = context.ShareOwnerDataModel
+                                        .SingleOrDefault(x => x.ShareOwner.ShareHolderId.Equals(userId) && x.Stock.StockId.Equals(stockId));
+
+                if (shareOwnerData == null) return false;
+                return shareOwnerData.SharesAmount >= sharesAmount;
             }
         }
 
-        // PUT api/values/5
+        //TODO: FIX THIS ONE TO PROPERLY REMOVE AND APPLY NEW OWNERSHIP ETC
         [HttpPut("UpdateShareOwnership/{stockId}")]
         public void UpdateShareOwnership(string stockId, [FromBody]Guid requester, Guid provider, int sharesAmount)
         {
-            //Check if requester have relation to stock. If yes´, update amount with old + new. If no, create new relation.
-            //Subtract sharesAmount from providers relation to stock. If 0, delete relation.
-            using (ShareOwnerContext context = new ShareOwnerContext(options))
+            using (var context = new ShareOwnerContext(Options))
             {
+                if (!VerifyShareOwnership(stockId, provider, sharesAmount)) return;
+                var newShareOwnerData = context.ShareOwnerDataModel
+                    .SingleOrDefault(x => x.ShareOwner.ShareHolderId.Equals(requester) && x.Stock.StockId.Equals(stockId));
+
+                var oldShareOwnerData = context.ShareOwnerDataModel
+                    .SingleOrDefault(x => x.ShareOwner.ShareHolderId.Equals(provider) && x.Stock.StockId.Equals(stockId));
+
+                if (oldShareOwnerData == null) return;
+                if (oldShareOwnerData.SharesAmount < sharesAmount) return;
+
+                if (newShareOwnerData == null)
+                {
+                    var shareOwner = context.OwnerDataModel
+                        .Single(x => x.ShareHolderId.Equals(requester));
+
+                    var stock = context.ShareDataModel
+                        .Single(x => x.StockId.Equals(stockId));
+
+                    context.ShareOwnerDataModel.Add(new ShareOwnerDataModel { ShareOwner = shareOwner, SharesAmount = sharesAmount, Stock = stock });
+                }
+                else
+                {
+                    newShareOwnerData.SharesAmount += sharesAmount;
+                    context.ShareOwnerDataModel.Update(newShareOwnerData);
+                }
+
+                oldShareOwnerData.SharesAmount -= sharesAmount;
+
+                context.ShareOwnerDataModel.Update(oldShareOwnerData);
+                context.SaveChanges();
             }
         }
 
-        [HttpPost("CreateShareOwnership/{stockId}{sharesAmount}")]
+        [HttpPost("CreateShareOwnership/{stockId}/{sharesAmount}")]
         public void CreateShareOwnership(string stockId, [FromBody]Guid userId, int sharesAmount)
         {
-            //Create new user if not present 
-            //Create new stock if not present
-            //Create relation between user and stock
-            using (ShareOwnerContext context = new ShareOwnerContext(options))
+            using (var context = new ShareOwnerContext(Options))
             {
+                var user = context.OwnerDataModel
+                                  .SingleOrDefault(x => x.ShareHolderId.Equals(userId));
+
+                var stock = context.ShareDataModel
+                                   .SingleOrDefault(x => x.StockId.Equals(stockId));
+
+                if (user == null)
+                {
+                    user = new OwnerDataModel() { ShareHolderId = userId };
+                    context.OwnerDataModel.Add(user);
+                }
+
+                if (stock == null)
+                {
+                    stock = new ShareDataModel()
+                    {
+                        StockId = stockId,
+                    };
+                    context.ShareDataModel.Add(stock);
+                }
+
+                context.ShareOwnerDataModel.Add(new ShareOwnerDataModel()
+                {
+                    Stock = stock,
+                    SharesAmount = sharesAmount,
+                    ShareOwner = user
+                });
+                context.SaveChanges();
             }
         }
 
-        public DbContextOptions<ShareOwnerContext> options = new DbContextOptionsBuilder<ShareOwnerContext>()
+        public DbContextOptions<ShareOwnerContext> Options = new DbContextOptionsBuilder<ShareOwnerContext>()
                 .UseInMemoryDatabase(databaseName: "ShareOwnerDb")
                 .Options;
     }

@@ -23,3 +23,6 @@ C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\Trad
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.AssemblyInfo.cs
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.dll
 C:\Users\Aleksander Konnerup\Documents\Au-Iha-6semester\I6TONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.pdb
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.dll
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\obj\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.pdb
+D:\OneDrive\6. Semester\ITONK\ITONKGruppe7\TradeBroker\TradeBrokerAPI\bin\Debug\netcoreapp2.0\win7-x64\TradeBrokerAPI.pdb

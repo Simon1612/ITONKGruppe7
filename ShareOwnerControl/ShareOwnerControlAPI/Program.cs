@@ -21,9 +21,9 @@ namespace ShareOwnerControlAPI
                 // an instance of the class is created in this host process.
 
                 ServiceRuntime.RegisterServiceAsync("ShareOwnerControlAPIType",
-                    context => new ShareOwnerControlAPI(context)).GetAwaiter().GetResult();
+                    context => new ShareOwnerControlApi(context)).GetAwaiter().GetResult();
 
-                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ShareOwnerControlAPI).Name);
+                ServiceEventSource.Current.ServiceTypeRegistered(Process.GetCurrentProcess().Id, typeof(ShareOwnerControlApi).Name);
 
                 // Prevents this host process from terminating so services keeps running. 
                 Thread.Sleep(Timeout.Infinite);

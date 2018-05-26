@@ -16,9 +16,9 @@ namespace ShareOwnerControlAPI
     /// <summary>
     /// The FabricRuntime creates an instance of this class for each service type instance. 
     /// </summary>
-    internal sealed class ShareOwnerControlAPI : StatelessService
+    internal sealed class ShareOwnerControlApi : StatelessService
     {
-        public ShareOwnerControlAPI(StatelessServiceContext context)
+        public ShareOwnerControlApi(StatelessServiceContext context)
             : base(context)
         { }
 
