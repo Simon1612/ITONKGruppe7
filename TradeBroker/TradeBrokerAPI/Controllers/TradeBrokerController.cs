@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json;
+using ServiceStack.OrmLite;
 using TradeBrokerAPI.Clients;
 
 namespace TradeBrokerAPI.Controllers
@@ -11,15 +9,18 @@ namespace TradeBrokerAPI.Controllers
     [Route("api/[controller]")]
     public class TradeBrokerController : Controller
     {
+        private const string ConnectionString = "Data Source=(localdb)\\.\\SharedDB;Initial Catalog=TradeBrokerDb;Integrated Security=SSPI;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
         [HttpPost("InitiateTrade/{stockId}/{sharesAmount}")]
         public void InitiateTrade(string stockId, int sharesAmount, [FromBody]Guid requesterId)
         {
             var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
             var paymentControlClient = new PaymentControlClient("http://localhost:8965");
             var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
+            var tobinTaxClient = new TobinTaxClient("http://localhost:8768");
 
             var numberOfAvailableShares = 0;
-            var chosenShareProviders = new List<string>();
+            var chosenShareProviders = new List<Guid>();
             var paymentsToProcess = new List<PaymentDataModel>();
 
             var availableShares = stockShareProviderClient.ApiStockShareProviderGetSharesForSaleByStockIdGetAsync(stockId).Result;
@@ -36,34 +37,44 @@ namespace TradeBrokerAPI.Controllers
             }
 
             if (sharesAmount > numberOfAvailableShares) return;
-            var reservedShares = 0;
+            var reservedSharesAmount = 0;
             var index = 0;
 
-            while (reservedShares < sharesAmount)
+            while (reservedSharesAmount < sharesAmount)
             {
-                chosenShareProviders.Add(availableShares[index].StockOwner.Value.ToString());
+                chosenShareProviders.Add(availableShares[index].StockOwner.Value);
 
-                if (availableShares[index].SharesAmount <= (sharesAmount - reservedShares))
+                if (availableShares[index].SharesAmount <= (sharesAmount - reservedSharesAmount))
                 {
-                    reservedShares += (int)availableShares[index].SharesAmount;
+                    reservedSharesAmount += (int)availableShares[index].SharesAmount;
 
                     stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(stockId,
                         availableShares[index].StockOwner,
                         availableShares[index].SharesAmount);
 
-                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = (stockInfo.SharePrice * availableShares[index].SharesAmount) });
+                    tobinTaxClient.ApiTobinTaxPostAsync(stockInfo.SharePrice * availableShares[index].SharesAmount,
+                        availableShares[index].StockOwner);
+
+                    var afterTax = ((stockInfo.SharePrice * availableShares[index].SharesAmount) /100)*99;
+
+                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = afterTax });
                     paymentsToProcess.Add(new PaymentDataModel { CounterParty = requesterId, PaymentType = "Invoice", PaymentAmount = (stockInfo.SharePrice * availableShares[index].SharesAmount) });
                 }
                 else
                 {
                     stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(stockId,
                         availableShares[index].StockOwner,
-                        (sharesAmount - reservedShares));
+                        (sharesAmount - reservedSharesAmount));
 
-                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = (sharesAmount - reservedShares) });
-                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = requesterId, PaymentType = "Invoice", PaymentAmount = (sharesAmount - reservedShares) * stockInfo.SharePrice });
+                    tobinTaxClient.ApiTobinTaxPostAsync((sharesAmount - reservedSharesAmount) * stockInfo.SharePrice,
+                        availableShares[index].StockOwner);
 
-                    reservedShares = sharesAmount;
+                    var afterTax = ((sharesAmount - reservedSharesAmount) * stockInfo.SharePrice / 100) * 99;
+
+                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = availableShares[index].StockOwner, PaymentType = "Payment", PaymentAmount = afterTax });
+                    paymentsToProcess.Add(new PaymentDataModel { CounterParty = requesterId, PaymentType = "Invoice", PaymentAmount = (sharesAmount - reservedSharesAmount) * stockInfo.SharePrice });
+
+                    reservedSharesAmount = sharesAmount;
                 }
 
                 index++;
@@ -74,19 +85,24 @@ namespace TradeBrokerAPI.Controllers
                 paymentControlClient.ApiPaymentCreatePaymentInfoByPaymentTypeByPaymentAmountPostAsync(payment.PaymentType, payment.PaymentAmount.Value, payment.CounterParty);
             }
 
-            using (var context = new TradeLogContext(Options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+
+            using (var db = dbFactory.Open())
             {
+                db.CreateTableIfNotExists<TradeDataModel>();
+
                 var value = new TradeDataModel
                 {
                     StockId = stockId,
                     SharesAmount = sharesAmount,
                     StockRequester = requesterId,
-                    StockProviders = JsonConvert.SerializeObject(chosenShareProviders)
+                    StockProviders = chosenShareProviders
                 };
-                var tradeData = JsonConvert.SerializeObject(value);
-                context.Add(tradeData);
-                context.SaveChanges();
-                //TODO: UDSKIFT TIL NORMAL DATABASE UDEN ENTITYFRAMEWORKS. UNDERLIG STRING FEJL HER
+
+                db.Insert(value);
             }
 
             foreach (var payment in paymentsToProcess)
@@ -94,7 +110,7 @@ namespace TradeBrokerAPI.Controllers
                 if (payment.PaymentType.Equals("Payment"))
                 {
                     shareOwnerControlClient.ApiShareOwnerUpdateShareOwnershipByStockIdPutAsync(stockId, requesterId,
-                        payment.CounterParty, payment.PaymentAmount / stockInfo.SharePrice);
+                        payment.CounterParty, payment.PaymentAmount / (stockInfo.SharePrice));
                 }
             }
         }
@@ -102,14 +118,14 @@ namespace TradeBrokerAPI.Controllers
         [HttpGet("GetTradeData/{tradeDataId}")]
         public TradeDataModel GetTradeData(int tradeDataId)
         {
-            using (var context = new TradeLogContext(Options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                return JsonConvert.DeserializeObject<TradeDataModel>(context.TradeData.SingleOrDefault(x => x.Id == tradeDataId)?.ToString());
+                return db.Single<TradeDataModel>(x => x.Id == tradeDataId);
             }
         }
-
-        public DbContextOptions<TradeLogContext> Options = new DbContextOptionsBuilder<TradeLogContext>()
-                .UseInMemoryDatabase(databaseName: "TradeLogDb")
-                .Options;
     }
 }

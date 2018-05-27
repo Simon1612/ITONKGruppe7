@@ -1,85 +1,106 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Collections.Generic;
+using ServiceStack.OrmLite;
 
 namespace StockShareProviderAPI.Controllers
 {
     [Route("api/[controller]")]
     public class StockShareProviderController : Controller
     {
+        private const string ConnectionString = "Data Source=(localdb)\\.\\SharedDB;Initial Catalog=StockShareProviderDb;Integrated Security=SSPI;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
         [HttpPost("CreateAvailableShares/{stockId}")]
         public void CreateAvailableShares(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
             if (stockId == null) return;
-            using (var context = new AvailableSharesContext(options))
+
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                context.Add(new AvailableSharesDataModel { StockId = stockId, StockOwner = userId, SharesAmount = sharesAmount });
-                context.SaveChanges();
+                db.CreateTableIfNotExists<AvailableSharesDataModel>();
+
+                db.Insert(new AvailableSharesDataModel { StockId = stockId, StockOwner = userId, SharesAmount = sharesAmount });
             }
         }
 
         [HttpPut("IncreaseSharesAmountForSale/{stockId}")]
         public void IncreaseSharesAmountForSale(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
-            using (var context = new AvailableSharesContext(options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                var selectedStock = context.AvailableSharesDataModel.Single(x => x.StockId.Equals(stockId));
+                db.CreateTableIfNotExists<AvailableSharesDataModel>();
+
+                var selectedStock = db.Single<AvailableSharesDataModel>(x => x.StockId == stockId);
 
                 if (selectedStock.StockOwner.Equals(userId))
                 {
                     selectedStock.SharesAmount += sharesAmount;
                 }
-                context.Update(selectedStock);
-                context.SaveChanges();
+
+                db.Update(selectedStock);
             }
         }
 
         [HttpPut("DecreaseSharesAmountForSale/{stockId}")]
         public void DecreaseSharesAmountForSale(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
-            using (var context = new AvailableSharesContext(options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                var selectedStock = context.AvailableSharesDataModel.Single(x => x.StockId.Equals(stockId));
+                db.CreateTableIfNotExists<AvailableSharesDataModel>();
 
-                if (selectedStock.StockOwner.Equals(userId))
-                {
-                    selectedStock.SharesAmount -= sharesAmount;
+                var selectedStock = db.Single<AvailableSharesDataModel>(x => x.StockId == stockId);
 
-                    if (selectedStock.SharesAmount < 0)
-                        return;
+                if (!selectedStock.StockOwner.Equals(userId)) return;
 
-                    if (selectedStock.SharesAmount == 0)
-                        context.Remove(selectedStock);
-                    else
-                        context.Update(selectedStock);
-                }
-                
-                context.SaveChanges();
+                selectedStock.SharesAmount -= sharesAmount;
+
+                if (selectedStock.SharesAmount < 0)
+                    return;
+
+                if (selectedStock.SharesAmount == 0)
+                    db.Delete(selectedStock);
+                else
+                    db.Update(selectedStock);
             }
         }
 
         [HttpGet("GetSharesForSale/{stockId}")]
         public List<AvailableSharesDataModel> GetSharesForSale(string stockId)
         {
-            using (var context = new AvailableSharesContext(options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                return context.AvailableSharesDataModel.Where(x => x.StockId.Equals(stockId)).ToList();
+                return db.Select<AvailableSharesDataModel>().Where(x => x.StockId.Equals(stockId)).ToList();
             }
         }
 
         [HttpGet]
         public List<AvailableSharesDataModel> GetAllSharesForSale()
         {
-            using (var context = new AvailableSharesContext(options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                return context.AvailableSharesDataModel.ToList();
+                return db.Select<AvailableSharesDataModel>().ToList();
             }
         }
-
-        private DbContextOptions<AvailableSharesContext> options = new DbContextOptionsBuilder<AvailableSharesContext>()
-           .UseInMemoryDatabase(databaseName: "AvailableSharesDb")
-           .Options;
     }
 }

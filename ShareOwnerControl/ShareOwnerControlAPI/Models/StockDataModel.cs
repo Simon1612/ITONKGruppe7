@@ -1,14 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using ServiceStack.DataAnnotations;
 
 namespace ShareOwnerControlAPI.Models
 {
-    public class ShareDataModel
+    public class StockDataModel
     {
-        public ShareDataModel()
-        {
-        }
-
-        [Key]
+        [PrimaryKey]
+        [AutoIncrement]
         public int Id { get; set; }
         public string StockId { get; set; }
         public int SharePrice { get; set; }

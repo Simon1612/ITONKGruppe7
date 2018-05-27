@@ -1,16 +1,13 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using ServiceStack.DataAnnotations;
 
 namespace ShareOwnerControlAPI.Models
 {
     public class OwnerDataModel
     {
-        public OwnerDataModel()
-        {
-        }
-
-        [Key]
+        [PrimaryKey]
+        [AutoIncrement]
         public int Id { get; set; }
-        public Guid ShareHolderId { get; set; } //Kan være ShareOwner eller ShareHolder, ved ikke hvad er bedst
+        public Guid ShareHolderId { get; set; }
     }
 }

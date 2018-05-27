@@ -1,128 +1,210 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using ShareOwnerControlAPI.Models;
 using System.Collections.Generic;
+using ServiceStack.OrmLite;
 
 namespace ShareOwnerControlAPI.Controllers
 {
     [Route("api/[controller]")]
     public class ShareOwnerController : Controller
     {
-        [HttpGet("GetStockInfo/{stockId}")]
-        public ShareDataModel GetStockInfo(string stockId)
-        {
-            using (var context = new ShareOwnerContext(Options))
-            {
-                return context.ShareDataModel
-                              .SingleOrDefault(x => x.StockId.Equals(stockId));
-            }
-        }
+        private const string ConnectionString = "Data Source=(localdb)\\.\\SharedDB;Initial Catalog=ShareOwnerControlDb;Integrated Security=SSPI;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
 
         [HttpGet("GetAllSharesForUser/{userId}")]
         public List<ShareOwnerDataModel> GetAllSharesForUser(Guid userId)
         {
-            using (var context = new ShareOwnerContext(Options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                return context.ShareOwnerDataModel
-                    .Where(shareOwnerModel => shareOwnerModel.ShareOwner.ShareHolderId.Equals(userId))
-                    .Include(share => share.Stock)
-                    .Include(user => user.ShareOwner)
-                    .ToListAsync().Result;
+                return db.Select<ShareOwnerDataModel>()
+                    .Where(shareOwnerModel => shareOwnerModel.ShareOwner.ShareHolderId.Equals(userId)).ToList();
             }
         }
 
         [HttpGet("VerifyShareOwnership/{stockId}")]
         public bool VerifyShareOwnership(string stockId, Guid userId, int sharesAmount)
         {
-            using (var context = new ShareOwnerContext(Options))
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
             {
-                var shareOwnerData = context.ShareOwnerDataModel
-                                        .SingleOrDefault(x => x.ShareOwner.ShareHolderId.Equals(userId) && x.Stock.StockId.Equals(stockId));
+                var shareOwnerData = db.Select<ShareOwnerDataModel>().FirstOrDefault(x => x.ShareOwner.ShareHolderId == userId && x.Stock.StockId == stockId);
 
                 if (shareOwnerData == null) return false;
                 return shareOwnerData.SharesAmount >= sharesAmount;
             }
         }
 
-        //TODO: FIX THIS ONE TO PROPERLY REMOVE AND APPLY NEW OWNERSHIP ETC
         [HttpPut("UpdateShareOwnership/{stockId}")]
         public void UpdateShareOwnership(string stockId, [FromBody]Guid requester, Guid provider, int sharesAmount)
         {
-            using (var context = new ShareOwnerContext(Options))
-            {
-                if (!VerifyShareOwnership(stockId, provider, sharesAmount)) return;
-                var newShareOwnerData = context.ShareOwnerDataModel
-                    .SingleOrDefault(x => x.ShareOwner.ShareHolderId.Equals(requester) && x.Stock.StockId.Equals(stockId));
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
 
-                var oldShareOwnerData = context.ShareOwnerDataModel
-                    .SingleOrDefault(x => x.ShareOwner.ShareHolderId.Equals(provider) && x.Stock.StockId.Equals(stockId));
+            using (var db = dbFactory.Open())
+            {
+                db.CreateTableIfNotExists<ShareOwnerDataModel>();
+                db.CreateTableIfNotExists<StockDataModel>();
+                db.CreateTableIfNotExists<OwnerDataModel>();
+
+                if (!VerifyShareOwnership(stockId, provider, sharesAmount)) return;
+
+                var newShareOwnerData = db.Select<ShareOwnerDataModel>().FirstOrDefault(x => x.ShareOwner.ShareHolderId == requester && x.Stock.StockId == stockId);
+
+                var oldShareOwnerData = db.Select<ShareOwnerDataModel>().FirstOrDefault(x => x.ShareOwner.ShareHolderId == provider && x.Stock.StockId == stockId);
 
                 if (oldShareOwnerData == null) return;
                 if (oldShareOwnerData.SharesAmount < sharesAmount) return;
 
                 if (newShareOwnerData == null)
                 {
-                    var shareOwner = context.OwnerDataModel
-                        .Single(x => x.ShareHolderId.Equals(requester));
+                    var shareOwner = db.Single<OwnerDataModel>(x => x.ShareHolderId == requester);
 
-                    var stock = context.ShareDataModel
-                        .Single(x => x.StockId.Equals(stockId));
+                    if (shareOwner == null) BadRequest("Share Requester does not exist.");
 
-                    context.ShareOwnerDataModel.Add(new ShareOwnerDataModel { ShareOwner = shareOwner, SharesAmount = sharesAmount, Stock = stock });
+                    var stock = db.Single<StockDataModel>(x => x.StockId == stockId);
+
+                    db.Insert(new ShareOwnerDataModel { ShareOwner = shareOwner, SharesAmount = sharesAmount, Stock = stock });
                 }
                 else
                 {
                     newShareOwnerData.SharesAmount += sharesAmount;
-                    context.ShareOwnerDataModel.Update(newShareOwnerData);
+                    db.Update(newShareOwnerData);
                 }
 
                 oldShareOwnerData.SharesAmount -= sharesAmount;
 
-                context.ShareOwnerDataModel.Update(oldShareOwnerData);
-                context.SaveChanges();
+                db.Update(oldShareOwnerData);
             }
         }
 
         [HttpPost("CreateShareOwnership/{stockId}/{sharesAmount}")]
         public void CreateShareOwnership(string stockId, [FromBody]Guid userId, int sharesAmount)
         {
-            using (var context = new ShareOwnerContext(Options))
-            {
-                var user = context.OwnerDataModel
-                                  .SingleOrDefault(x => x.ShareHolderId.Equals(userId));
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
 
-                var stock = context.ShareDataModel
-                                   .SingleOrDefault(x => x.StockId.Equals(stockId));
+            using (var db = dbFactory.Open())
+            {
+                db.CreateTableIfNotExists<ShareOwnerDataModel>();
+                db.CreateTableIfNotExists<StockDataModel>();
+                db.CreateTableIfNotExists<OwnerDataModel>();
+
+                var user = db.Single<OwnerDataModel>(x => x.ShareHolderId == userId);
+
+                var stock = db.Single<StockDataModel>(x => x.StockId == stockId);
 
                 if (user == null)
                 {
                     user = new OwnerDataModel() { ShareHolderId = userId };
-                    context.OwnerDataModel.Add(user);
+                    db.Insert(user);
                 }
 
                 if (stock == null)
                 {
-                    stock = new ShareDataModel()
+                    stock = new StockDataModel()
                     {
                         StockId = stockId,
+                        SharePrice = 5
                     };
-                    context.ShareDataModel.Add(stock);
+
+                   db.Insert(stock);
                 }
 
-                context.ShareOwnerDataModel.Add(new ShareOwnerDataModel()
+                db.Insert(new ShareOwnerDataModel()
                 {
                     Stock = stock,
                     SharesAmount = sharesAmount,
                     ShareOwner = user
                 });
-                context.SaveChanges();
             }
         }
 
-        public DbContextOptions<ShareOwnerContext> Options = new DbContextOptionsBuilder<ShareOwnerContext>()
-                .UseInMemoryDatabase(databaseName: "ShareOwnerDb")
-                .Options;
+        [HttpGet("GetStockInfo/{stockId}")]
+        public StockDataModel GetStockInfo(string stockId)
+        {
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
+            {
+                return db.Single<StockDataModel>(x => x.StockId == stockId);
+            }
+        }
+
+        [HttpGet("GetAllStocks")]
+        public List<StockDataModel> GetAllStocks()
+        {
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
+            {
+                return db.Select<StockDataModel>().ToList();
+            }
+        }
+
+        [HttpPost("CreateStock/{stockId}")]
+        public void CreateStock(string stockId, int sharePrice)
+        {
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
+            {
+                db.CreateTableIfNotExists<StockDataModel>();
+
+                db.Insert(new StockDataModel
+                {
+                    StockId = stockId,
+                    SharePrice = sharePrice
+                });
+            }
+        }
+
+        [HttpGet("GetAllUsers")]
+        public List<OwnerDataModel> GetAllUsers()
+        {
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
+            {
+                return db.Select<OwnerDataModel>().ToList();
+            }
+        }
+
+        [HttpPost("CreateOwner")]
+        public void CreateOwner([FromBody]Guid shareHolderId)
+        {
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
+            {
+                db.CreateTableIfNotExists<OwnerDataModel>();
+
+                db.Insert(new OwnerDataModel
+                {
+                    ShareHolderId = shareHolderId
+                });
+            }
+        }
+
+
     }
 }
