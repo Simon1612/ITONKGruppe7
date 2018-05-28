@@ -123,7 +123,6 @@ namespace TradeClient.ViewModels
             if (Users.Count > 0)
             {
                 CurrentUser = Users.First();
-                OnRefresh();
             }
             else
             {
