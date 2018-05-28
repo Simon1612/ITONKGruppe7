@@ -1,7 +1,7 @@
 {
   "runtimeTarget": {
     "name": ".NETCoreApp,Version=v2.0/win7-x64",
-    "signature": "704846eee167014b2691a25e4858012b2e04f09b"
+    "signature": "8d7f31046a5bd150d59b4dc9d2dfbadba5981c90"
   },
   "compilationOptions": {
     "defines": [
@@ -30,6 +30,7 @@
           "Microsoft.ServiceFabric.AspNetCore.Kestrel": "3.1.274",
           "Microsoft.ServiceFabric.Data": "3.1.274",
           "Microsoft.ServiceFabric.Services": "3.1.274",
+          "ServiceStack.OrmLite.SqlServer.Core": "5.1.0",
           "Swashbuckle.AspNetCore.Swagger": "2.4.0",
           "Swashbuckle.AspNetCore.SwaggerGen": "2.4.0",
           "Swashbuckle.AspNetCore.SwaggerUI": "2.4.0"
@@ -2268,6 +2269,68 @@
       },
       "runtime.win7-x64.runtime.native.System.IO.Compression/4.3.0": {},
       "runtime.win7.System.Private.Uri/4.3.0": {},
+      "ServiceStack.Common.Core/5.1.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "2.0.0",
+          "ServiceStack.Interfaces.Core": "5.1.0",
+          "ServiceStack.Text.Core": "5.1.0",
+          "System.ComponentModel.Primitives": "4.3.0",
+          "System.Data.Common": "4.3.0",
+          "System.Dynamic.Runtime": "4.3.0",
+          "System.Net.NetworkInformation": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ServiceStack.Common.dll": {}
+        }
+      },
+      "ServiceStack.Interfaces.Core/5.1.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ServiceStack.Interfaces.dll": {}
+        }
+      },
+      "ServiceStack.OrmLite.Core/5.1.0": {
+        "dependencies": {
+          "ServiceStack.Common.Core": "5.1.0",
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.ComponentModel.Annotations": "4.4.0",
+          "System.ComponentModel.Primitives": "4.3.0",
+          "System.Data.SqlClient": "4.4.3",
+          "System.Dynamic.Runtime": "4.3.0",
+          "System.Reflection.Emit": "4.3.0",
+          "System.Reflection.Emit.Lightweight": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ServiceStack.OrmLite.dll": {}
+        }
+      },
+      "ServiceStack.OrmLite.SqlServer.Core/5.1.0": {
+        "dependencies": {
+          "ServiceStack.OrmLite.Core": "5.1.0",
+          "System.Data.SqlClient": "4.4.3"
+        },
+        "compile": {
+          "lib/netstandard2.0/ServiceStack.OrmLite.SqlServer.dll": {}
+        }
+      },
+      "ServiceStack.Text.Core/5.1.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.4.0",
+          "Microsoft.Extensions.Primitives": "2.0.0",
+          "System.Runtime": "4.3.0"
+        },
+        "compile": {
+          "lib/netstandard2.0/ServiceStack.Text.dll": {}
+        }
+      },
       "SQLitePCLRaw.bundle_green/1.1.7": {
         "dependencies": {
           "SQLitePCLRaw.core": "1.1.7",
@@ -2456,6 +2519,18 @@
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0",
           "runtime.win.System.Console": "4.3.0"
+        }
+      },
+      "System.Data.Common/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
         }
       },
       "System.Data.SqlClient/4.4.3": {
@@ -2715,6 +2790,33 @@
           "System.Security.Principal.Windows": "4.4.0",
           "System.Threading": "4.3.0",
           "System.Threading.Tasks": "4.3.0",
+          "runtime.native.System": "4.3.0"
+        }
+      },
+      "System.Net.NetworkInformation/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0",
+          "Microsoft.Win32.Primitives": "4.3.0",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Net.Sockets": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Security.Principal.Windows": "4.4.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Overlapped": "4.3.0",
+          "System.Threading.Tasks": "4.3.0",
+          "System.Threading.Thread": "4.3.0",
+          "System.Threading.ThreadPool": "4.3.0",
           "runtime.native.System": "4.3.0"
         }
       },
@@ -3337,6 +3439,7 @@
           "Microsoft.ServiceFabric.AspNetCore.Kestrel": "3.1.274",
           "Microsoft.ServiceFabric.Data": "3.1.274",
           "Microsoft.ServiceFabric.Services": "3.1.274",
+          "ServiceStack.OrmLite.SqlServer.Core": "5.1.0",
           "Swashbuckle.AspNetCore.Swagger": "2.4.0",
           "Swashbuckle.AspNetCore.SwaggerGen": "2.4.0",
           "Swashbuckle.AspNetCore.SwaggerUI": "2.4.0"
@@ -5713,6 +5816,68 @@
       },
       "runtime.win7-x64.runtime.native.System.IO.Compression/4.3.0": {},
       "runtime.win7.System.Private.Uri/4.3.0": {},
+      "ServiceStack.Common.Core/5.1.0": {
+        "dependencies": {
+          "Microsoft.Extensions.Primitives": "2.0.0",
+          "ServiceStack.Interfaces.Core": "5.1.0",
+          "ServiceStack.Text.Core": "5.1.0",
+          "System.ComponentModel.Primitives": "4.3.0",
+          "System.Data.Common": "4.3.0",
+          "System.Dynamic.Runtime": "4.3.0",
+          "System.Net.NetworkInformation": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ServiceStack.Common.dll": {}
+        }
+      },
+      "ServiceStack.Interfaces.Core/5.1.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Serialization.Primitives": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ServiceStack.Interfaces.dll": {}
+        }
+      },
+      "ServiceStack.OrmLite.Core/5.1.0": {
+        "dependencies": {
+          "ServiceStack.Common.Core": "5.1.0",
+          "System.Collections.NonGeneric": "4.3.0",
+          "System.ComponentModel.Annotations": "4.4.0",
+          "System.ComponentModel.Primitives": "4.3.0",
+          "System.Data.SqlClient": "4.4.3",
+          "System.Dynamic.Runtime": "4.3.0",
+          "System.Reflection.Emit": "4.3.0",
+          "System.Reflection.Emit.Lightweight": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Xml.XmlDocument": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ServiceStack.OrmLite.dll": {}
+        }
+      },
+      "ServiceStack.OrmLite.SqlServer.Core/5.1.0": {
+        "dependencies": {
+          "ServiceStack.OrmLite.Core": "5.1.0",
+          "System.Data.SqlClient": "4.4.3"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ServiceStack.OrmLite.SqlServer.dll": {}
+        }
+      },
+      "ServiceStack.Text.Core/5.1.0": {
+        "dependencies": {
+          "Microsoft.CSharp": "4.4.0",
+          "Microsoft.Extensions.Primitives": "2.0.0",
+          "System.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/ServiceStack.Text.dll": {}
+        }
+      },
       "SQLitePCLRaw.bundle_green/1.1.7": {
         "dependencies": {
           "SQLitePCLRaw.core": "1.1.7",
@@ -5905,6 +6070,18 @@
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0",
           "runtime.win.System.Console": "4.3.0"
+        }
+      },
+      "System.Data.Common/4.3.0": {
+        "dependencies": {
+          "System.Collections": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Text.RegularExpressions": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
         }
       },
       "System.Data.SqlClient/4.4.3": {
@@ -6164,6 +6341,33 @@
           "System.Security.Principal.Windows": "4.4.0",
           "System.Threading": "4.3.0",
           "System.Threading.Tasks": "4.3.0",
+          "runtime.native.System": "4.3.0"
+        }
+      },
+      "System.Net.NetworkInformation/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "2.0.0",
+          "Microsoft.Win32.Primitives": "4.3.0",
+          "System.Collections": "4.3.0",
+          "System.Diagnostics.Tracing": "4.3.0",
+          "System.Globalization": "4.3.0",
+          "System.IO": "4.3.0",
+          "System.IO.FileSystem": "4.3.0",
+          "System.IO.FileSystem.Primitives": "4.3.0",
+          "System.Linq": "4.3.0",
+          "System.Net.Primitives": "4.3.0",
+          "System.Net.Sockets": "4.3.0",
+          "System.Resources.ResourceManager": "4.3.0",
+          "System.Runtime": "4.3.0",
+          "System.Runtime.Extensions": "4.3.0",
+          "System.Runtime.Handles": "4.3.0",
+          "System.Runtime.InteropServices": "4.3.0",
+          "System.Security.Principal.Windows": "4.4.0",
+          "System.Threading": "4.3.0",
+          "System.Threading.Overlapped": "4.3.0",
+          "System.Threading.Tasks": "4.3.0",
+          "System.Threading.Thread": "4.3.0",
+          "System.Threading.ThreadPool": "4.3.0",
           "runtime.native.System": "4.3.0"
         }
       },
@@ -8416,6 +8620,41 @@
       "path": "runtime.win7.system.private.uri/4.3.0",
       "hashPath": "runtime.win7.system.private.uri.4.3.0.nupkg.sha512"
     },
+    "ServiceStack.Common.Core/5.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-9Rr6WT1eZfahWOhKVM8fxeXxrlfLnQf54lbgK4o5ogAn0eIWD628VWeCetTyUiPrgkM+Y1tN26AehfXJN77isQ==",
+      "path": "servicestack.common.core/5.1.0",
+      "hashPath": "servicestack.common.core.5.1.0.nupkg.sha512"
+    },
+    "ServiceStack.Interfaces.Core/5.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-WARXZTwY7olihNEIF4U3vWJ4khlk5C6HCdpg3/wyci5j/ztUONWHlQTXJfY63sHR0i1oObCNiL6xrKfUpLHj7w==",
+      "path": "servicestack.interfaces.core/5.1.0",
+      "hashPath": "servicestack.interfaces.core.5.1.0.nupkg.sha512"
+    },
+    "ServiceStack.OrmLite.Core/5.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-KhUmW9NBAxqTL/hJ4A+z00dkBQjtoTJzCohKiCh2rk39p1ceksz8FPrXvBE1kkx8imrob2PpFlP7XmzMRqfG7Q==",
+      "path": "servicestack.ormlite.core/5.1.0",
+      "hashPath": "servicestack.ormlite.core.5.1.0.nupkg.sha512"
+    },
+    "ServiceStack.OrmLite.SqlServer.Core/5.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-E4WBextxWdxOcJjezVGBbAxAl7aPocamCkkRqaN6KW3JLldLFqBavSr+9x8NHQVXRHacVcsz62B/UHRh+Ovaaw==",
+      "path": "servicestack.ormlite.sqlserver.core/5.1.0",
+      "hashPath": "servicestack.ormlite.sqlserver.core.5.1.0.nupkg.sha512"
+    },
+    "ServiceStack.Text.Core/5.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7UIH4QGavWCLV4dzSELe3Bv+cgIMyQPEjlK2Py38Ym+xcVCiDC2dvouQ+gW9jsYF+5rROHCNFLv/HJhf7IbDYA==",
+      "path": "servicestack.text.core/5.1.0",
+      "hashPath": "servicestack.text.core.5.1.0.nupkg.sha512"
+    },
     "SQLitePCLRaw.bundle_green/1.1.7": {
       "type": "package",
       "serviceable": true,
@@ -8569,6 +8808,13 @@
       "sha512": "sha512-DHDrIxiqk1h03m6khKWV2X8p/uvN79rgSqpilL6uzpmSfxfU5ng8VcPtW4qsDsQDHiTv6IPV9TmD5M/vElPNLg==",
       "path": "system.console/4.3.0",
       "hashPath": "system.console.4.3.0.nupkg.sha512"
+    },
+    "System.Data.Common/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-lm6E3T5u7BOuEH0u18JpbJHxBfOJPuCyl4Kg1RH10ktYLp5uEEE1xKrHW56/We4SnZpGAuCc9N0MJpSDhTHZGQ==",
+      "path": "system.data.common/4.3.0",
+      "hashPath": "system.data.common.4.3.0.nupkg.sha512"
     },
     "System.Data.SqlClient/4.4.3": {
       "type": "package",
@@ -8730,6 +8976,13 @@
       "sha512": "sha512-AFYl08R7MrsrEjqpQWTZWBadqXyTzNDaWpMqyxhb0d6sGhV6xMDKueuBXlLL30gz+DIRY6MpdgnHWlCh5wmq9w==",
       "path": "system.net.nameresolution/4.3.0",
       "hashPath": "system.net.nameresolution.4.3.0.nupkg.sha512"
+    },
+    "System.Net.NetworkInformation/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-zNVmWVry0pAu7lcrRBhwwU96WUdbsrGL3azyzsbXmVNptae1+Za+UgOe9Z6s8iaWhPn7/l4wQqhC56HZWq7tkg==",
+      "path": "system.net.networkinformation/4.3.0",
+      "hashPath": "system.net.networkinformation.4.3.0.nupkg.sha512"
     },
     "System.Net.Primitives/4.3.0": {
       "type": "package",
