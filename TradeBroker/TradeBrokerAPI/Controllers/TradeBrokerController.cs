@@ -17,7 +17,7 @@ namespace TradeBrokerAPI.Controllers
             var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
             var paymentControlClient = new PaymentControlClient("http://localhost:8965");
             var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
-            var tobinTaxClient = new TobinTaxClient("http://localhost:8768");
+            var tobinTaxClient = new TobinTaxClient("http://localhost:8132");
 
             var numberOfAvailableShares = 0;
             var chosenShareProviders = new List<Guid>();

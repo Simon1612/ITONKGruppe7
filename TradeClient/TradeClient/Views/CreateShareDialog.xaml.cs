@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TradeClient.Clients;
 using TradeClient.Helpers;
 using TradeClient.Models;
 
@@ -24,12 +25,12 @@ namespace TradeClient.Views
     public partial class CreateShareDialog : Window
     {
         public ICommand OkCommand { get; set; }
-        public ObservableCollection<User> Users { get; set; }
-        public User SelectedUser { get; set; } = null;
+        public ObservableCollection<OwnerDataModel> Users { get; set; }
+        public OwnerDataModel SelectedUser { get; set; } = null;
 
         public int PickedAmount { get; set; } = 0;
 
-        public CreateShareDialog(ObservableCollection<User> users)
+        public CreateShareDialog(ObservableCollection<OwnerDataModel> users)
         {
             InitializeComponent();
             Users = users;
@@ -51,7 +52,7 @@ namespace TradeClient.Views
 
         private void OnOkClicked()
         {
-            App.Current.MainWindow.OwnedWindows[0].DialogResult = true;
+            Application.Current.MainWindow.OwnedWindows[0].DialogResult = true;
         }
     }
 }

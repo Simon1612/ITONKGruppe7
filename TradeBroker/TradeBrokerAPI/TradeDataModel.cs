@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using ServiceStack.DataAnnotations;
 
 namespace TradeBrokerAPI
 {
     public class TradeDataModel
     {
-        public TradeDataModel()
-        {
-        }
-
+        [PrimaryKey]
+        [AutoIncrement]
         public int Id { get; set; }
         public string StockId { get; set; }
         public int SharesAmount { get; set; }

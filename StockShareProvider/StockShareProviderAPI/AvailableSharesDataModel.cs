@@ -1,11 +1,12 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using ServiceStack.DataAnnotations;
 
 namespace StockShareProviderAPI
 {
     public class AvailableSharesDataModel
     {
-        [Key]
+        [PrimaryKey]
+        [AutoIncrement]
         public int Id { get; set; }
         public string StockId { get; set; }
         public int SharesAmount { get; set; }
