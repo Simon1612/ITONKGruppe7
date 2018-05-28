@@ -71,7 +71,10 @@ namespace StockShareProviderAPI.Controllers
                     return;
 
                 if (selectedStock.SharesAmount == 0)
+                {
+                    selectedStock.SharesAmount = sharesAmount;
                     db.Delete(selectedStock);
+                }
                 else
                     db.Update(selectedStock);
             }
@@ -86,12 +89,12 @@ namespace StockShareProviderAPI.Controllers
 
             using (var db = dbFactory.Open())
             {
-                return db.Select<AvailableSharesDataModel>().Where(x => x.StockId.Equals(stockId)).ToList();
+                return db.Select<AvailableSharesDataModel>().Where(x => x.StockId == stockId).ToList();
             }
         }
 
-        [HttpGet("GetSharesForSale")]
-        public List<AvailableSharesDataModel> GetSharesForSaleByUser([FromBody]Guid userId)
+        [HttpGet("GetSharesForSaleByUser/{userId}")]
+        public List<AvailableSharesDataModel> GetSharesForSaleByUser(Guid userId)
         {
             var dbFactory = new OrmLiteConnectionFactory(
                 ConnectionString,
@@ -99,7 +102,7 @@ namespace StockShareProviderAPI.Controllers
 
             using (var db = dbFactory.Open())
             {
-                return db.Select<AvailableSharesDataModel>().Where(x => x.StockOwner == userId).ToList();
+                return db.Select<AvailableSharesDataModel>(x => x.StockOwner == userId);
             }
         }
 

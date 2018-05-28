@@ -16,11 +16,11 @@ namespace TradeClient.ViewModels
         /* Trading */
         public ObservableCollection<AvailableSharesDataModel> AvailableShares { get; set; }
         public ObservableCollection<ShareOwnerDataModel> MyShares { get; set; }
-        public ObservableCollection<ShareOwnerDataModel> MyMarkedShares { get; set; }
+        public ObservableCollection<AvailableSharesDataModel> MyMarkedShares { get; set; }
 
         public AvailableSharesDataModel SelectedAvailableShare { get; set; }
         public ShareOwnerDataModel SelectedMyShare { get; set; }
-        public ShareOwnerDataModel SelectedMyMarkedShare { get; set; }
+        public AvailableSharesDataModel SelectedMyMarkedShare { get; set; }
 
         private OwnerDataModel _currentUser;
 
@@ -106,7 +106,7 @@ namespace TradeClient.ViewModels
 
 
             AvailableShares = new ObservableCollection<AvailableSharesDataModel>();
-            MyMarkedShares = new ObservableCollection<ShareOwnerDataModel>();
+            MyMarkedShares = new ObservableCollection<AvailableSharesDataModel>();
             MyShares = new ObservableCollection<ShareOwnerDataModel>();
             Users = new ObservableCollection<OwnerDataModel>();
 
@@ -161,15 +161,24 @@ namespace TradeClient.ViewModels
                 var stockId = dlg.StockIdTbx.Text;
 
                 var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
+
                 stockShareProviderClient.ApiStockShareProviderCreateAvailableSharesByStockIdPostAsync(stockId,
                     CurrentUser.ShareHolderId, amountToMark);
+
                 OnRefresh();
             }
         }
 
         private void OnUnmarkShares()
         {
-            //TODO: ?
+            var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
+
+            var selectedStock = SelectedMyMarkedShare;
+
+            stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(
+                selectedStock.StockId, selectedStock.StockOwner, selectedStock.SharesAmount);
+
+            OnRefresh();
         }
 
         private void OnBuyShares()
@@ -203,6 +212,9 @@ namespace TradeClient.ViewModels
             AvailableShares = stockShareProviderClient.ApiStockShareProviderGetAsync().Result;
             Notify("AvailableShares");
 
+            MyMarkedShares =
+                stockShareProviderClient.ApiStockShareProviderGetSharesForSaleByUserIdGetAsync(CurrentUser.ShareHolderId.Value).Result;
+            Notify("MyMarkedShares");
 
             /*Users*/
             Users = shareOwnerControlClient.ApiShareOwnerGetAllUsersGetAsync().Result;

@@ -31,10 +31,6 @@
                                                     Width="110"
                                                     DisplayMemberBinding="{Binding StockId}">
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Price/share" 
-                                                    Width="110"
-                                                    DisplayMemberBinding="{Binding SharePrice}">
-                                    </GridViewColumn>
                                     <GridViewColumn Header="Amount"
                                                     Width="110" DisplayMemberBinding="{Binding SharesAmount}">
                                     </GridViewColumn>
@@ -118,11 +114,7 @@
                                             <GridView>
                                                 <GridViewColumn Header="StockId" 
                                                                 Width="110"
-                                                                DisplayMemberBinding="{Binding Stock.StockId}">
-                                                </GridViewColumn>
-                                                <GridViewColumn Header="Price/share" 
-                                                                Width="110"
-                                                                DisplayMemberBinding="{Binding Stock.SharePrice}">
+                                                                DisplayMemberBinding="{Binding StockId}">
                                                 </GridViewColumn>
                                                 <GridViewColumn Header="Amount"
                                                                 Width="110" DisplayMemberBinding="{Binding SharesAmount}">
