@@ -243,14 +243,14 @@ namespace TradeClient.ViewModels
                     Amount = Convert.ToInt32(dlg.AmountTbx.Text)
                 };
 
-                var owner = dlg.SelectUserCbx.SelectionBoxItem as User;
+                var owner = dlg.SelectUserCbx.SelectionBoxItem as OwnerDataModel;
 
                 var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
 
                 shareOwnerControlClient.ApiShareOwnerCreateStockByStockIdPostAsync(newShare.StockId, Convert.ToInt32(newShare.Price));
 
                 shareOwnerControlClient.ApiShareOwnerCreateShareOwnershipByStockIdBySharesAmountPostAsync(
-                    newShare.StockId, owner.UserId, newShare.Amount);
+                    newShare.StockId, owner.ShareHolderId, newShare.Amount);
 
                 OnRefresh();
             }
