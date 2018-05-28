@@ -1,21 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using StockShareRequesterAPI.Clients;
-using StockShareRequesterAPI.Models;
 
 namespace StockShareRequesterAPI.Controllers
 {
     [Route("api/[controller]")]
     public class StockShareRequesterController : Controller
     {
-        [HttpGet("GetSharesForUser/{userId}")]
+        [HttpGet("GetSharesForUser")]
         public List<ShareOwnerDataModel> GetAllSharesByUserId([FromBody] Guid userId)
         {
-
             var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
             var sharesList = shareOwnerControlClient.ApiShareOwnerGetAllSharesForUserByUserIdGetAsync(userId).Result;
 
@@ -23,7 +19,7 @@ namespace StockShareRequesterAPI.Controllers
         }
 
  
-        [HttpGet("GetAvailableSharesForUser/{userId}")]
+        [HttpGet("GetAvailableSharesForUser")]
         public List<AvailableSharesDataModel> GetSharesForSaleByUserId([FromBody] Guid userId)
         {
             var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");

@@ -103,6 +103,8 @@ namespace TradeClient.ViewModels
             //Users = new ObservableCollection<OwnerDataModel>() {user};
             //CurrentUser = user;
 
+            CurrentUser = new OwnerDataModel {ShareHolderId = CreateUserGuid};
+
             AvailableShares = new ObservableCollection<AvailableSharesDataModel>();
             MyMarkedShares = new ObservableCollection<ShareOwnerDataModel>();
             MyShares = new ObservableCollection<ShareOwnerDataModel>();
@@ -156,7 +158,7 @@ namespace TradeClient.ViewModels
                 var stockId = dlg.StockIdTbx.Text;
 
 
-                var stockShareRequesterClient = new StockShareRequesterClient("http://localhost:8000");
+                var stockShareRequesterClient = new StockShareRequesterClient("http://localhost:8378");
                 stockShareRequesterClient.ApiStockShareRequesterInitiateTradeByStockIdBySharesAmountPostAsync(stockId,
                     amountToMark, CurrentUser.ShareHolderId);
                 OnRefresh();
@@ -199,12 +201,14 @@ namespace TradeClient.ViewModels
         {
             var userExists = Users.Any(user => user.ShareHolderId == CreateUserGuid);
 
-            if (!userExists)
-            {
-                var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
-                shareOwnerControlClient.ApiShareOwnerCreateOwnerPostAsync(CreateUserGuid);
-                OnRefresh();
-            }
+            if (userExists) return;
+
+            var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
+            shareOwnerControlClient.ApiShareOwnerCreateOwnerPostAsync(CreateUserGuid);
+
+            CurrentUser.ShareHolderId = CreateUserGuid;
+
+            OnRefresh();
         }
 
         private void OnCreateShares()
