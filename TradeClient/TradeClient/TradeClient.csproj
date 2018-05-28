@@ -69,8 +69,11 @@
     <Compile Include="Views\CreateShareDialog.xaml.cs">
       <DependentUpon>CreateShareDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\PickAmountDialog.xaml.cs">
-      <DependentUpon>PickAmountDialog.xaml</DependentUpon>
+    <Compile Include="Views\PickAmountDialogSale.xaml.cs">
+      <DependentUpon>PickAmountDialogSale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PickAmountDialogBuy.xaml.cs">
+      <DependentUpon>PickAmountDialogBuy.xaml</DependentUpon>
     </Compile>
     <Page Include="Views\CreateShareDialog.xaml">
       <SubType>Designer</SubType>
@@ -93,7 +96,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\PickAmountDialog.xaml">
+    <Page Include="Views\PickAmountDialogSale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\PickAmountDialogBuy.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

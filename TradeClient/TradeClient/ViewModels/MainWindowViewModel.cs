@@ -18,7 +18,7 @@ namespace TradeClient.ViewModels
         public ObservableCollection<ShareOwnerDataModel> MyShares { get; set; }
         public ObservableCollection<ShareOwnerDataModel> MyMarkedShares { get; set; }
 
-        public ShareOwnerDataModel SelectedAvailableShare { get; set; }
+        public AvailableSharesDataModel SelectedAvailableShare { get; set; }
         public ShareOwnerDataModel SelectedMyShare { get; set; }
         public ShareOwnerDataModel SelectedMyMarkedShare { get; set; }
 
@@ -103,6 +103,8 @@ namespace TradeClient.ViewModels
             //Users = new ObservableCollection<OwnerDataModel>() { user };
             //CurrentUser = user;
 
+
+
             AvailableShares = new ObservableCollection<AvailableSharesDataModel>();
             MyMarkedShares = new ObservableCollection<ShareOwnerDataModel>();
             MyShares = new ObservableCollection<ShareOwnerDataModel>();
@@ -152,7 +154,7 @@ namespace TradeClient.ViewModels
 
         private void OnMarkSharesForSale()
         {
-            var dlg = new PickAmountDialog(SelectedMyShare) {Owner = Application.Current.MainWindow};
+            var dlg = new PickAmountDialogSale(SelectedMyShare) {Owner = Application.Current.MainWindow};
             if (dlg.ShowDialog() == true)
             {
                 var amountToMark = Convert.ToInt32(dlg.AmountTbx.Text);
@@ -168,12 +170,11 @@ namespace TradeClient.ViewModels
         private void OnUnmarkShares()
         {
             //TODO: ?
-
         }
 
         private void OnBuyShares()
         {
-            var dlg = new PickAmountDialog(SelectedAvailableShare) {Owner = App.Current.MainWindow};
+            var dlg = new PickAmountDialogBuy(SelectedAvailableShare) {Owner = App.Current.MainWindow};
             if (dlg.ShowDialog() == true)
             {
                 var amountToMark = Convert.ToInt32(dlg.AmountTbx.Text);
