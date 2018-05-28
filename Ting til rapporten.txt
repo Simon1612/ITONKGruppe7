@@ -1,1 +1,3 @@
 ShareOwnerControl skulle være delt op i 2 microservices istedet: UserControl og StockControl.
+
+TradeBroker har lidt meget arbejde - Især i InitiateTrade

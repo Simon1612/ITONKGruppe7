@@ -1,13 +1,12 @@
 ﻿using System;
+using ServiceStack.DataAnnotations;
 
 namespace PaymentControlAPI
 {
     public class PaymentDataModel
     {
-        public PaymentDataModel()
-        {
-        }
-
+        [PrimaryKey]
+        [AutoIncrement]
         public int Id { get; set; }
         public Guid CounterParty { get; set; }
         public string PaymentType { get; set; }
