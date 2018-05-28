@@ -14,6 +14,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using TradeClient.Clients;
 using TradeClient.Helpers;
 using TradeClient.Models;
 
@@ -25,11 +26,11 @@ namespace TradeClient.Views
     public partial class PickAmountDialog 
     {
         public ICommand OkCommand { get; set; }
-        public Share CurrentShare { get; set; }
+        public ShareOwnerDataModel CurrentShare { get; set; }
 
         public int PickedAmount { get; set; } = 0;
 
-        public PickAmountDialog(Share share)
+        public PickAmountDialog(ShareOwnerDataModel share)
         {
 
             InitializeComponent();
@@ -41,7 +42,7 @@ namespace TradeClient.Views
 
         private bool CanExecuteOk()
         {
-            return Regex.Match(AmountTbx.Text, @"^[1-9]\d*$").Success && Convert.ToInt32(AmountTbx.Text) <= CurrentShare.Amount;
+            return Regex.Match(AmountTbx.Text, @"^[1-9]\d*$").Success && Convert.ToInt32(AmountTbx.Text) <= CurrentShare.SharesAmount;
         }
 
         private void OnOkClicked()
