@@ -78,7 +78,7 @@ namespace StockShareProviderAPI.Controllers
         }
 
         [HttpGet("GetSharesForSale/{stockId}")]
-        public List<AvailableSharesDataModel> GetSharesForSale(string stockId)
+        public List<AvailableSharesDataModel> GetSharesForSaleByStock(string stockId)
         {
             var dbFactory = new OrmLiteConnectionFactory(
                 ConnectionString,
@@ -87,6 +87,19 @@ namespace StockShareProviderAPI.Controllers
             using (var db = dbFactory.Open())
             {
                 return db.Select<AvailableSharesDataModel>().Where(x => x.StockId.Equals(stockId)).ToList();
+            }
+        }
+
+        [HttpGet("GetSharesForSale")]
+        public List<AvailableSharesDataModel> GetSharesForSaleByUser([FromBody]Guid userId)
+        {
+            var dbFactory = new OrmLiteConnectionFactory(
+                ConnectionString,
+                SqlServerDialect.Provider);
+
+            using (var db = dbFactory.Open())
+            {
+                return db.Select<AvailableSharesDataModel>().Where(x => x.StockOwner == userId).ToList();
             }
         }
 
