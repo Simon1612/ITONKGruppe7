@@ -3,34 +3,43 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StockShareRequesterAPI.Models;
 
 namespace StockShareRequesterAPI.Controllers
 {
     [Route("api/[controller]")]
     public class StockShareRequesterController : Controller
     {
-        [HttpGet]
-        public List<SharesModel> GetSharesForUser([FromBody]Guid userId)
+        [HttpGet("GetSharesForUser/{userId}")]
+        public List<ShareDataModel> GetAllSharesByUserId([FromBody] Guid userId)
         {
-            //return ShareOwnerControlClient.GetSharesForUser(userId);
+            //GetAllShares from OwnerControl by userId
+        }
+
+        //Gets shares marked for sale
+        [HttpGet("GetAvailableSharesForUser/{userId}")]
+        public List<ShareDataModel> GetSharesForSaleByUserId([FromBody] Guid userId)
+        {
+            //Get shares marked for sale from provider by userId
+        }
+
+        [HttpGet]
+        public List<ShareDataModel> GetAllSharesForSale()
+        {
+            //Gets all available shares from provider
         }
 
         // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
+        [HttpPost("CreateAvailableShares/{stockId}")]
+        public void CreateAvailableShares(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
+            //Creates shares for sale in provider
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        [HttpPost("InitiateTrade/{stockId}/{sharesAmount}")]
+        public void InitiateTrade(string stockId, int sharesAmount, [FromBody] Guid requesterId)
         {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
+            //From buy in GUI. Call initiate in broker
         }
     }
 }
