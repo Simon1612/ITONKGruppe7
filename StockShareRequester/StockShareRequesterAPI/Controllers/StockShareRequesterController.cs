@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using StockShareRequesterAPI.Clients;
 using StockShareRequesterAPI.Models;
 
 namespace StockShareRequesterAPI.Controllers
@@ -11,35 +13,74 @@ namespace StockShareRequesterAPI.Controllers
     public class StockShareRequesterController : Controller
     {
         [HttpGet("GetSharesForUser/{userId}")]
-        public List<ShareDataModel> GetAllSharesByUserId([FromBody] Guid userId)
+        public List<ShareOwnerDataModel> GetAllSharesByUserId([FromBody] Guid userId)
         {
-            //GetAllShares from OwnerControl by userId
+
+            var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
+            var sharesList = shareOwnerControlClient.ApiShareOwnerGetAllSharesForUserByUserIdGetAsync(userId).Result;
+
+            return sharesList.ToList();
         }
 
-        //Gets shares marked for sale
+ 
         [HttpGet("GetAvailableSharesForUser/{userId}")]
-        public List<ShareDataModel> GetSharesForSaleByUserId([FromBody] Guid userId)
+        public List<AvailableSharesDataModel> GetSharesForSaleByUserId([FromBody] Guid userId)
         {
-            //Get shares marked for sale from provider by userId
+            var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
+            var sharesForSale = stockShareProviderClient.ApiStockShareProviderGetSharesForSaleGetAsync(userId).Result;
+
+            return sharesForSale.ToList();
         }
 
-        [HttpGet]
-        public List<ShareDataModel> GetAllSharesForSale()
+        [HttpGet("GetAllSharesForSale")]
+        public List<AvailableSharesDataModel> GetAllSharesForSale()
         {
-            //Gets all available shares from provider
+            var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
+            var sharesList = stockShareProviderClient.ApiStockShareProviderGetAsync().Result;
+
+            return sharesList.ToList();
         }
 
-        // POST api/values
         [HttpPost("CreateAvailableShares/{stockId}")]
         public void CreateAvailableShares(string stockId, [FromBody] Guid userId, int sharesAmount)
         {
-            //Creates shares for sale in provider
+            var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
+            stockShareProviderClient.ApiStockShareProviderCreateAvailableSharesByStockIdPostAsync(stockId, userId,
+                sharesAmount);
         }
 
         [HttpPost("InitiateTrade/{stockId}/{sharesAmount}")]
         public void InitiateTrade(string stockId, int sharesAmount, [FromBody] Guid requesterId)
         {
-            //From buy in GUI. Call initiate in broker
+            var tradeBrokerClient = new TradeBrokerClient("http://localhost:8761");
+            tradeBrokerClient.ApiTradeBrokerInitiateTradeByStockIdBySharesAmountPostAsync(stockId, sharesAmount,
+                requesterId);
+        }
+
+        [HttpPost("CreateStock/{stockId}")]
+        public void CreateStock(string stockId, int sharePrice)
+        {
+            var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
+            shareOwnerControlClient.ApiShareOwnerCreateStockByStockIdPostAsync(stockId, sharePrice);
+        }
+
+
+
+        [HttpPost("CreateOwner")]
+        public void CreateOwner([FromBody] Guid shareHolderId)
+        {
+            var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
+            shareOwnerControlClient.ApiShareOwnerCreateOwnerPostAsync(shareHolderId);
+        }
+
+
+        [HttpGet("GetAllUsers")]
+        public List<OwnerDataModel> GetAllUsers()
+        {
+            var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
+            var usersList = shareOwnerControlClient.ApiShareOwnerGetAllUsersGetAsync().Result;
+
+            return usersList.ToList();
         }
     }
 }
