@@ -23,16 +23,15 @@ namespace TradeClient.Views
     /// <summary>
     /// Interaction logic for PickAmountDialog.xaml
     /// </summary>
-    public partial class PickAmountDialog 
+    public partial class PickAmountDialogSale
     {
         public ICommand OkCommand { get; set; }
         public ShareOwnerDataModel CurrentShare { get; set; }
 
         public int PickedAmount { get; set; } = 0;
 
-        public PickAmountDialog(ShareOwnerDataModel share)
+        public PickAmountDialogSale(ShareOwnerDataModel share)
         {
-
             InitializeComponent();
             CurrentShare = share;
 

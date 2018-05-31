@@ -31,10 +31,6 @@
                                                     Width="110"
                                                     DisplayMemberBinding="{Binding StockId}">
                                     </GridViewColumn>
-                                    <GridViewColumn Header="Price/share" 
-                                                    Width="110"
-                                                    DisplayMemberBinding="{Binding Stock.SharePrice}">
-                                    </GridViewColumn>
                                     <GridViewColumn Header="Amount"
                                                     Width="110" DisplayMemberBinding="{Binding SharesAmount}">
                                     </GridViewColumn>
@@ -50,7 +46,7 @@
                                Height="29" 
                                Margin="75,6,513,408" />
                         <TextBox IsReadOnly="True" 
-                                 Text="{Binding Path=CurrentUser.UserId}" 
+                                 Text="{Binding Path=CurrentUser.ShareHolderId}" 
                                  HorizontalAlignment="Left"
                                  Margin="175,10,0,0" 
                                  TextWrapping="Wrap" 
@@ -118,11 +114,7 @@
                                             <GridView>
                                                 <GridViewColumn Header="StockId" 
                                                                 Width="110"
-                                                                DisplayMemberBinding="{Binding Stock.StockId}">
-                                                </GridViewColumn>
-                                                <GridViewColumn Header="Price/share" 
-                                                                Width="110"
-                                                                DisplayMemberBinding="{Binding Stock.SharePrice}">
+                                                                DisplayMemberBinding="{Binding StockId}">
                                                 </GridViewColumn>
                                                 <GridViewColumn Header="Amount"
                                                                 Width="110" DisplayMemberBinding="{Binding SharesAmount}">
@@ -182,7 +174,7 @@
                         <Label Content="Current User:" Margin="75,6,506,400"/>
 
                         <TextBox IsReadOnly="True" 
-                                 Text="{Binding Path=CurrentUser.UserId}" 
+                                 Text="{Binding Path=CurrentUser.ShareHolderId}" 
                                  HorizontalAlignment="Left"
                                  Margin="175,10,0,0" 
                                  TextWrapping="Wrap" 
@@ -201,7 +193,7 @@
                         <ListView x:Name="UsersListView"
                                   ItemsSource="{Binding Users}"
                                   SelectedItem="{Binding SelectedUser}"
-                                  DisplayMemberPath="UserId"
+                                  DisplayMemberPath="ShareHolderId"
                                   Height="142" 
                                   VerticalAlignment="Bottom"
                                   Margin="224,0,98,228" >

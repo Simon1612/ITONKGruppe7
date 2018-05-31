@@ -23,7 +23,7 @@
                   VerticalAlignment="Top"
                   Width="258"
                   ItemsSource="{Binding Path= Users}"
-                  DisplayMemberPath="UserId"
+                  DisplayMemberPath="ShareHolderId"
                   SelectedValuePath="{Binding SelectedUser}"
                   SelectedItem="{Binding SelectedUser}"
                   Height="21" >

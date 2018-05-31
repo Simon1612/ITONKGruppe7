@@ -16,11 +16,11 @@ namespace TradeClient.ViewModels
         /* Trading */
         public ObservableCollection<AvailableSharesDataModel> AvailableShares { get; set; }
         public ObservableCollection<ShareOwnerDataModel> MyShares { get; set; }
-        public ObservableCollection<ShareOwnerDataModel> MyMarkedShares { get; set; }
+        public ObservableCollection<AvailableSharesDataModel> MyMarkedShares { get; set; }
 
-        public ShareOwnerDataModel SelectedAvailableShare { get; set; }
+        public AvailableSharesDataModel SelectedAvailableShare { get; set; }
         public ShareOwnerDataModel SelectedMyShare { get; set; }
-        public ShareOwnerDataModel SelectedMyMarkedShare { get; set; }
+        public AvailableSharesDataModel SelectedMyMarkedShare { get; set; }
 
         private OwnerDataModel _currentUser;
 
@@ -69,6 +69,7 @@ namespace TradeClient.ViewModels
 
         public MainWindowViewModel()
         {
+
             //var userGuid = Guid.NewGuid();
 
             //var availableShare = new AvailableSharesDataModel()
@@ -77,8 +78,7 @@ namespace TradeClient.ViewModels
             //    SharesAmount = 1,
             //    StockId = "ABC"
             //};
-            //AvailableShares = new ObservableCollection<AvailableSharesDataModel>() {availableShare};
-
+            //AvailableShares = new ObservableCollection<AvailableSharesDataModel>() { availableShare };
 
             //var markedShare = new ShareOwnerDataModel()
             //{
@@ -87,7 +87,7 @@ namespace TradeClient.ViewModels
             //    Stock = new StockDataModel() { SharePrice = 2, StockId = "DEF" }
             //};
 
-            //MyMarkedShares = new ObservableCollection<ShareOwnerDataModel>() {markedShare};
+            //MyMarkedShares = new ObservableCollection<ShareOwnerDataModel>() { markedShare };
 
 
             //var myShare = new ShareOwnerDataModel()
@@ -97,18 +97,42 @@ namespace TradeClient.ViewModels
             //    Stock = new StockDataModel() { SharePrice = 3, StockId = "GHI" }
             //};
 
-            //MyShares = new ObservableCollection<ShareOwnerDataModel>() {myShare, markedShare};
+            //MyShares = new ObservableCollection<ShareOwnerDataModel>() { myShare, markedShare };
 
-            //var user = new OwnerDataModel() {ShareHolderId = userGuid};
-            //Users = new ObservableCollection<OwnerDataModel>() {user};
+            //var user = new OwnerDataModel() { ShareHolderId = userGuid };
+            //Users = new ObservableCollection<OwnerDataModel>() { user };
             //CurrentUser = user;
 
-            CurrentUser = new OwnerDataModel {ShareHolderId = CreateUserGuid};
+
 
             AvailableShares = new ObservableCollection<AvailableSharesDataModel>();
-            MyMarkedShares = new ObservableCollection<ShareOwnerDataModel>();
+            MyMarkedShares = new ObservableCollection<AvailableSharesDataModel>();
             MyShares = new ObservableCollection<ShareOwnerDataModel>();
             Users = new ObservableCollection<OwnerDataModel>();
+
+            /*Available shares*/
+            var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
+
+            AvailableShares = stockShareProviderClient.ApiStockShareProviderGetAsync().Result;
+            Notify("AvailableShares");
+
+            /* Users */
+            var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
+            Users = shareOwnerControlClient.ApiShareOwnerGetAllUsersGetAsync().Result;
+            Notify("Users");
+
+            /* If any user already exists in db, set CurrentUser */
+            if (Users.Count > 0)
+            {
+                CurrentUser = Users.First();
+            }
+            else
+            {
+                /* Create new user with GUID */
+                shareOwnerControlClient.ApiShareOwnerCreateOwnerPostAsync(CreateUserGuid);
+
+                CurrentUser = new OwnerDataModel { ShareHolderId = CreateUserGuid };
+            }
 
 
             /* Trading */
@@ -130,28 +154,36 @@ namespace TradeClient.ViewModels
 
         private void OnMarkSharesForSale()
         {
-            var dlg = new PickAmountDialog(SelectedMyShare) {Owner = Application.Current.MainWindow};
+            var dlg = new PickAmountDialogSale(SelectedMyShare) {Owner = Application.Current.MainWindow};
             if (dlg.ShowDialog() == true)
             {
                 var amountToMark = Convert.ToInt32(dlg.AmountTbx.Text);
                 var stockId = dlg.StockIdTbx.Text;
 
                 var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
+
                 stockShareProviderClient.ApiStockShareProviderCreateAvailableSharesByStockIdPostAsync(stockId,
                     CurrentUser.ShareHolderId, amountToMark);
+
                 OnRefresh();
             }
         }
 
         private void OnUnmarkShares()
         {
-            //TODO: ?
+            var stockShareProviderClient = new StockShareProviderClient("http://localhost:8748");
 
+            var selectedStock = SelectedMyMarkedShare;
+
+            stockShareProviderClient.ApiStockShareProviderDecreaseSharesAmountForSaleByStockIdPutAsync(
+                selectedStock.StockId, selectedStock.StockOwner, selectedStock.SharesAmount);
+
+            OnRefresh();
         }
 
         private void OnBuyShares()
         {
-            var dlg = new PickAmountDialog(SelectedAvailableShare) {Owner = App.Current.MainWindow};
+            var dlg = new PickAmountDialogBuy(SelectedAvailableShare) {Owner = App.Current.MainWindow};
             if (dlg.ShowDialog() == true)
             {
                 var amountToMark = Convert.ToInt32(dlg.AmountTbx.Text);
@@ -179,7 +211,10 @@ namespace TradeClient.ViewModels
 
             AvailableShares = stockShareProviderClient.ApiStockShareProviderGetAsync().Result;
             Notify("AvailableShares");
-            
+
+            MyMarkedShares =
+                stockShareProviderClient.ApiStockShareProviderGetSharesForSaleByUserIdGetAsync(CurrentUser.ShareHolderId.Value).Result;
+            Notify("MyMarkedShares");
 
             /*Users*/
             Users = shareOwnerControlClient.ApiShareOwnerGetAllUsersGetAsync().Result;
@@ -206,8 +241,6 @@ namespace TradeClient.ViewModels
             var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
             shareOwnerControlClient.ApiShareOwnerCreateOwnerPostAsync(CreateUserGuid);
 
-            CurrentUser.ShareHolderId = CreateUserGuid;
-
             OnRefresh();
         }
 
@@ -223,14 +256,14 @@ namespace TradeClient.ViewModels
                     Amount = Convert.ToInt32(dlg.AmountTbx.Text)
                 };
 
-                var owner = dlg.SelectUserCbx.SelectionBoxItem as User;
+                var owner = dlg.SelectUserCbx.SelectionBoxItem as OwnerDataModel;
 
                 var shareOwnerControlClient = new ShareOwnerControlClient("http://localhost:8758");
 
                 shareOwnerControlClient.ApiShareOwnerCreateStockByStockIdPostAsync(newShare.StockId, Convert.ToInt32(newShare.Price));
 
                 shareOwnerControlClient.ApiShareOwnerCreateShareOwnershipByStockIdBySharesAmountPostAsync(
-                    newShare.StockId, owner.UserId, newShare.Amount);
+                    newShare.StockId, owner.ShareHolderId, newShare.Amount);
 
                 OnRefresh();
             }
